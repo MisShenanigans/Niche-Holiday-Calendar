@@ -20,6 +20,6 @@ This program is designed for
 and is currently in a panic.
 
 I decide to take on this project because it is something I will need
-in my life. 
+in my life.
 
 
