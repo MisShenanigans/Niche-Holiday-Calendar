@@ -22,4 +22,6 @@ and is currently in a panic.
 I decide to take on this project because it is something I will need
 in my life.
 
+## As a user, I would like to mark an session I read.
+
 
