@@ -1,27 +1,31 @@
-# H2G2 Verse of the Day
+# Niche Holiday Calender
 
-## Don't Panic and Grab Your Towel
+## Don't Panic and Grab Your Towel, or Honey Can, or Whatever.
 
 This is a student project for course CPSC210. It primarily 
-does two things. 
+does three things.
 
-- Give a scripture like reference system to every line in
-the novels franchise **The Hitchhiker's Guide to the Galaxy**
-trilogy by Douglas Adams and allow user to navigate, 
-search and read them.
+- Provides an overview of all days in a month and put them into
+a calendar view.
 
-- Promote and present a remarkable verse from **The 
-Hitchhiker's Guide to the Galaxy** trilogy once every 24 hour.
+- Inform the user a niche holiday is happening when it is happening. and
+also provides some basic information about that niche holiday.
+
+- Provide information of Niche Holiday about any date the user
+is curious of.
 
 This program is designed for 
-- Any devoted readers of Douglas Adams
-- Anyone seeking hilarious wisdom in their life
-- Anyone planning for a space travel but don't have a ship yet
-and is currently in a panic.
+- Anyone looking for some extra nicheness in their life.
+- Anyone wishing to be able to provide fun facts in a party or gathering
+- Anyone dedicating to celebrating a certain niche holiday but have
+memory so terrible so they can't memorize those themselves.
 
 I decide to take on this project because it is something I will need
-in my life.
+in my life and I think it will do other people some help.
 
-## As a user, I would like to mark an session I read.
+## As a user, I would like to check if today is a niche holiday.
+## As a user, I would like to go to a date and see it's month.
+## As a user, I would like to go to check if a date I typed in is a niche holiday.
+## As a user, I would like to move to tomorrow and yesterday to see if they are niche.
 
 
