@@ -24,7 +24,6 @@ public class NicheCalendar {
         int month = date.getMonthValue();
         initialization(year, month, date, args);
 
-
         while (true) {
             // Getting input
             System.out.print("Enter a date (yyyy-MM-dd), or type 'tom' for tomorrow and 'yest' "
@@ -34,38 +33,26 @@ public class NicheCalendar {
             // Exit Option
             if (input.equals("exit")) {
                 break;
-            } else {
-                handleInput(input, date, usedFormat);
             }
-
+            if (input.equals("tom")) {
+                date = date.plusDays(1);
+                goToDesiredDate(date);
+            } // Yesterday
+            if (input.equals("yest")) {
+                date = date.plusDays(-1);
+                goToDesiredDate(date);
+            } // Go back to today
+            if (input.equals("today")) {
+                date = LocalDate.now();
+                goToDesiredDate(date);
+            } // Go to the given date
+            if (isItADate(input)) {
+                date = LocalDate.parse(input, usedFormat);
+                goToDesiredDate(date);
+            } else {
+                System.out.println("Time for even more niches~~ ");
+            }
         }
-    }
-
-
-    /*
-     *EFFECTS: Encapsulate several ways to handle input together because of line number restriction
-     */
-    public static void handleInput(String input, LocalDate date, DateTimeFormatter usedFormat) {
-        // Tomorrow
-        if (input.equals("tom")) {
-            date = date.plusDays(1);
-            goToDesiredDate(date);
-        } // Yesterday
-        if (input.equals("yest")) {
-            date = date.plusDays(-1);
-            goToDesiredDate(date);
-        } // Go back to today
-        if (input.equals("today")) {
-            date = LocalDate.now();
-            goToDesiredDate(date);
-        } // Go to the given date
-        if (isItADate(input)) {
-            date = LocalDate.parse(input, usedFormat);
-            goToDesiredDate(date);
-        } else {
-            System.out.println("Time for even more Niche~~ ");
-        }
-
     }
 
 
