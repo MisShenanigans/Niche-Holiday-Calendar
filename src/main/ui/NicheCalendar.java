@@ -28,7 +28,6 @@ public class NicheCalendar {
         endAnnouncement();
 
         handleCases(scanner, date, usedFormat);
-
     }
 
 

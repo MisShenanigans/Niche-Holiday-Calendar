@@ -3,6 +3,9 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.MonthDay;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -32,6 +35,24 @@ public class NicheHolidaysTest {
     }
 
     @Test
+    void testIsToday() {
+        MonthDay today = MonthDay.from(LocalDate.now());
+        int month = today.getMonthValue();
+        int day = today.getDayOfMonth();
+        towelsDay.changeDate(month, day);
+        newtonmas.changeDate(month, day);
+        assertTrue(towelsDay.isToday());
+        assertTrue(newtonmas.isToday());
+        month++;
+        day++;
+        towelsDay.changeDate(month, day);
+        newtonmas.changeDate(month, day);
+        assertFalse(towelsDay.isToday());
+        assertFalse(newtonmas.isToday());
+    }
+
+
+    @Test
     void testIsTheGivenDay() {
         assertTrue(towelsDay.isTheGivenDay(5, 25));
         assertTrue(newtonmas.isTheGivenDay(12, 25));
@@ -39,6 +60,7 @@ public class NicheHolidaysTest {
         assertFalse(towelsDay.isTheGivenDay(5, 26));
         assertFalse(towelsDay.isTheGivenDay(12, 25));
     }
+
 
     @Test
     void testChangeDate() {
@@ -56,6 +78,7 @@ public class NicheHolidaysTest {
         towelsDay.changeName("A better World Towel Day");
         assertEquals("A better World Towel Day", towelsDay.getName());
     }
+
 
     @Test
     void testAddNote() {
