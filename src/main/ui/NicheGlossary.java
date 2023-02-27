@@ -7,17 +7,13 @@ public class NicheGlossary {
     //The glossary for all Niche holidays recorded in this program
     public static final NicheHoliday[] NICHE_GLOSSARY =  {
             // January
-            new NicheHoliday(1, 1,
-                    "Polar Bear Plunge Day",
+            new NicheHoliday(1, 1, "Polar Bear Plunge Day",
                     "today people jump into a cold water body just like polar bears"),
-            new NicheHoliday(1, 2,
-                    "Science Fiction Day",
+            new NicheHoliday(1, 2, "Science Fiction Day",
                     "today we reach out to the future and tomorrow. And also, Space is extra cool"),
-            new NicheHoliday(1, 3,
-                    "Festival of Sleep Day",
+            new NicheHoliday(1, 3, "Festival of Sleep Day",
                     "today we shall sleep on a justified course"),
-            new NicheHoliday(1, 4,
-                    "Trivia Day",
+            new NicheHoliday(1, 4, "Trivia Day",
                      "this is the day you learn a bunch of useless stuff and act pedantic, perfect day tp "
                              + "use this program for help"),
             new NicheHoliday(1,5, "Bird Day",
@@ -26,49 +22,39 @@ public class NicheGlossary {
                     "today is the day you slap the flat-earthers on their face"),
 
             // February
-            new NicheHoliday(2, 11,
-                    "Get Out Your Guitar Day",
+            new NicheHoliday(2, 11, "Get Out Your Guitar Day",
                     "Yes please, you are supposed to feel better"),
 
-            new NicheHoliday(2, 22,
-                    "Crime Victims Day in Europe",
+            new NicheHoliday(2, 22, "Crime Victims Day in Europe",
                     "revenge is often not the right curse of justice"),
 
-            new NicheHoliday(2, 23,
-                    "International Dog Biscuit Appreciation Day",
+            new NicheHoliday(2, 23, "International Dog Biscuit Appreciation Day",
                     "feeding your dog baked dog biscuit is a great idea!"),
 
            // March
-            new NicheHoliday(3, 4,
-                    "Marching Music Day",
+            new NicheHoliday(3, 4, "Marching Music Day",
                     "I don't know, marching and music does not sound like a good combination"),
             new NicheHoliday(3,19, "Let's Laugh Day",
                     "be sure to watch some stupid sitcoms today"),
-            new NicheHoliday(3, 20,
-                    "Proposal Day",
+            new NicheHoliday(3, 20, "Proposal Day",
                     "the proposal is an serious decision to make, please proceed with caution"),
             new NicheHoliday(3,23,"Near Miss Day",
                     "in March 23, 1989, the Asclepius asteroid almost hit earth."
                             + "you should celebrate today by celebrating life and all the second "
                             + "chances you have ever been given."),
-            new NicheHoliday(3, 27,
-                    "Quirky Country Music Song Titles Day",
+            new NicheHoliday(3, 27, "Quirky Country Music Song Titles Day",
                     "Go to your play list and pick your least favourite song"),
 
             // April
-            new NicheHoliday(4, 1,
-                    "Fun at Work Day",
+            new NicheHoliday(4, 1, "Fun at Work Day",
                     "work is almost never fun, but I guess you will have to pretend it is fun"),
-            new NicheHoliday(4, 3,
-                    "World Party Day",
+            new NicheHoliday(4, 3, "World Party Day",
                     "the use of the word, party, to refer to a gathering "
                             + "where people have a good time dates all the way back to 1922?"),
-            new NicheHoliday(4, 4,
-                    "Tell a Lie Day",
+            new NicheHoliday(4, 4, "Tell a Lie Day",
                     "Oh come on, April's Fool just ended 2 days ago. "
                             + "But if you missed April's fool, now is your chance !"),
-            new NicheHoliday(4, 11,
-                    "Be Kind to Lawyers Day",
+            new NicheHoliday(4, 11, "Be Kind to Lawyers Day",
                     "you only need to be kind to lawyers while your case is not end"),
             new NicheHoliday(4,17, "Haiku Poetry Day",
                     "go here to learn writing your own Haiku from Grammarly"
@@ -87,15 +73,11 @@ public class NicheGlossary {
                             + "just Bruce Wayne"),
             new NicheHoliday(5,4, "May the Force/Star Wars Day",
                     "may the Force be with you"),
-            new NicheHoliday(5, 20,
-                    "World Bee Day",
+            new NicheHoliday(5, 20, "World Bee Day",
                     "They can really get everywhere and be annoying"),
-            new NicheHoliday(5, 25,
-                    "World Towel Day",
+            new NicheHoliday(5, 25, "World Towel Day",
                     "Grab Your Towel and Don't panic"),
-            new NicheHoliday(5,
-                    26,
-                    "World Lindy Hop Day",
+            new NicheHoliday(5, 26, "World Lindy Hop Day",
                     "Lindy Hop originated in Harlem, New York City in the 1920s and 1930s. "
                             + "The day commemorates Frankie Manning, "
                             + "who some consider one of the creators of the dance form."),

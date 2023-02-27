@@ -16,6 +16,7 @@ import static ui.NicheGlossary.NICHE_GLOSSARY;
 public class NicheCalendar {
 
 
+
     public static void main(String[] args) {
         DateTimeFormatter usedFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Scanner scanner = new Scanner(System.in);
@@ -24,10 +25,19 @@ public class NicheCalendar {
         int month = date.getMonthValue();
         initialization(year, month, date, args);
 
+        endAnnouncement();
+
+        handleCases(scanner, date, usedFormat);
+
+    }
+
+
+    /*
+     *EFFECTS: Handle different commands, print calendar and produce niche info
+     */
+    public static void handleCases(Scanner scanner, LocalDate date, DateTimeFormatter usedFormat) {
         while (true) {
             // Getting input
-            System.out.print("Enter a date (yyyy-MM-dd), or type 'tom' for tomorrow and 'yest' "
-                    + "for yesterday, type ’today‘ to go back to today, type 'quit' to end program: ");
             String input = scanner.nextLine();
 
             // Exit Option
@@ -37,7 +47,8 @@ public class NicheCalendar {
             if (input.equals("tom")) {
                 date = date.plusDays(1);
                 goToDesiredDate(date);
-            } // Yesterday
+            }
+            // Yesterday
             if (input.equals("yest")) {
                 date = date.plusDays(-1);
                 goToDesiredDate(date);
@@ -49,11 +60,21 @@ public class NicheCalendar {
             if (isItADate(input)) {
                 date = LocalDate.parse(input, usedFormat);
                 goToDesiredDate(date);
-            } else {
-                System.out.println("Time for even more niches~~ ");
             }
+            endAnnouncement();
         }
     }
+
+    /*
+     *EFFECTS: Give basic instructions.
+     */
+    public static void endAnnouncement() {
+        System.out.println("Time for even more niches~~ ");
+        System.out.println("Enter a date (yyyy-MM-dd), or type 'tom' for tomorrow and 'yest' "
+                + "for yesterday, type ’today‘ to go back to today, type 'quit' to end program:");
+        System.out.print("Enters:");
+    }
+
 
 
 
