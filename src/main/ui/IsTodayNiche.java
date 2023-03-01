@@ -7,7 +7,7 @@ import static ui.NicheGlossary.NICHE_GLOSSARY;
 public class IsTodayNiche {
 
     // Check today's nicheness and report.
-    public static void main(String[] args) {
+    public static void main() {
         for (NicheHoliday nicheholiday : NICHE_GLOSSARY) {
             if (nicheholiday.isToday()) {
                 System.out.println("Wow, today is " + nicheholiday.getName());

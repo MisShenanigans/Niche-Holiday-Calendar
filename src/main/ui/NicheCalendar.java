@@ -23,7 +23,7 @@ public class NicheCalendar {
         LocalDate date = LocalDate.now();
         int year = date.getYear();
         int month = date.getMonthValue();
-        initialization(year, month, date, args);
+        initialization(year, month, date);
 
         endAnnouncement();
 
@@ -80,12 +80,12 @@ public class NicheCalendar {
     /*
      *EFFECTS: Produce the calendar view and niche info about today
      */
-    public static void initialization(int year, int month, LocalDate date, String[] args) {
+    public static void initialization(int year, int month, LocalDate date) {
         System.out.println("Today is " + date);
         System.out.println("Here is the Calendar");
         printCalendar(year, month, date);
         IsTodayNiche todayNiche = new IsTodayNiche();
-        todayNiche.main(args);
+        todayNiche.main();
     }
 
 

@@ -8,7 +8,7 @@ public class NicheHoliday {
 
     private MonthDay date;                 // Month and Date of the niche holiday
     private String name;                   // name of the niche holiday
-    private String note;            // info about the niche holiday
+    private String note;                  // info about the niche holiday
 
 
     /*
