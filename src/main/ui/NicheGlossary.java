@@ -2,9 +2,44 @@ package ui;
 
 import model.NicheHoliday;
 
+/**
+ The glossary for all Niche holidays recorded in this program
+ */
 public class NicheGlossary {
+    private NicheHoliday[] holidays;
 
-    //The glossary for all Niche holidays recorded in this program
+    /*
+     * EFFECTS: construct an NicheGlossary with same as NICHE_GLOSSARY
+     */
+    public NicheGlossary() {
+        holidays = NICHE_GLOSSARY;
+    }
+
+    /*
+     * REQUIRE: toAdd must be a functioning NicheHoliday
+     * MODIFY: This
+     * Effects: add the inputted NicheHoliday into the NicheGlossary
+     */
+    public void addToGlossary(NicheHoliday newHoliday) {
+        NicheHoliday[] newHolidays = new NicheHoliday[holidays.length + 1];
+
+        for (int i = 0; i < holidays.length; i++) {
+            newHolidays[i] = holidays[i];
+        }
+
+        newHolidays[holidays.length] = newHoliday;
+
+        holidays = newHolidays;
+    }
+
+    /*
+     * Effects: return nicheGlossary
+     */
+    public NicheHoliday[] getHolidays() {
+        return holidays;
+    }
+
+
     public static final NicheHoliday[] NICHE_GLOSSARY =  {
             // January
             new NicheHoliday(1, 1, "Polar Bear Plunge Day",
@@ -153,4 +188,11 @@ public class NicheGlossary {
                             + "may the Force be proportional to your acceleration")
 
     };
+
+
+
+
+
+
+
 }

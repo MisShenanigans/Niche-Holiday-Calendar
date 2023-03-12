@@ -3,7 +3,9 @@ package model;
 import java.time.LocalDate;
 import java.time.MonthDay;
 
-
+/**
+ This class is used to represent a NicheHoliday with its MonthDay, name and additional info
+ */
 public class NicheHoliday {
 
     private MonthDay date;                 // Month and Date of the niche holiday

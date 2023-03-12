@@ -1,138 +1,172 @@
 package ui;
 
+import model.NicheDate;
 import model.NicheHoliday;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
-import static ui.NicheGlossary.NICHE_GLOSSARY;
 
 
+/**
+ Primary user interface that handles user command, and result printing
+ */
 public class NicheCalendar {
+    private Scanner input;
+    private NicheGlossary loadedGlossary;
+    private NicheDate nicheDate;
+    private Boolean homeKeepGoing = true;
+    private Boolean checkKeepGoing = false;
 
+    public NicheCalendar() {
+        this.loadedGlossary = new NicheGlossary();
+        this.nicheDate = new NicheDate();
+        this.input = new Scanner(System.in);
+        LocalDate date = nicheDate.getNicheDay();
 
+        initialization(date);
+        introAnnouncement();
 
-    public static void main(String[] args) {
-        DateTimeFormatter usedFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Scanner scanner = new Scanner(System.in);
-        LocalDate date = LocalDate.now();
-        int year = date.getYear();
-        int month = date.getMonthValue();
-        initialization(year, month, date);
+        while (true) {
+            if (homeKeepGoing) {
+                introAnnouncement();
+                handleHomePage(input);
+            } else if (checkKeepGoing) {
+                handleCases(input);
+            } else {
+                break;
+            }
+        }
 
-        endAnnouncement();
-
-        handleCases(scanner, date, usedFormat);
     }
 
 
     /*
      *EFFECTS: Handle different commands, print calendar and produce niche info
      */
-    public static void handleCases(Scanner scanner, LocalDate date, DateTimeFormatter usedFormat) {
-        while (true) {
-            // Getting input
-            String input = scanner.nextLine();
+    public void handleHomePage(Scanner newCommand) {
 
-            // Exit Option
-            if (input.equals("exit")) {
-                break;
+        while (homeKeepGoing) {
+            String input = newCommand.nextLine();
+
+
+            if (input.equals("add")) {
+                addNicheDay();
+                introAnnouncement();
+            } else if (input.equals("check")) {
+                homeKeepGoing = false;
+                checkKeepGoing = true;
+            } else if (input.equals("exit")) {
+                homeKeepGoing = false;
+                checkKeepGoing = false;
             }
-            if (input.equals("tom")) {
-                date = date.plusDays(1);
-                goToDesiredDate(date);
-            }
-            // Yesterday
-            if (input.equals("yest")) {
-                date = date.plusDays(-1);
-                goToDesiredDate(date);
-            } // Go back to today
-            if (input.equals("today")) {
-                date = LocalDate.now();
-                goToDesiredDate(date);
-            } // Go to the given date
-            if (isItADate(input)) {
-                date = LocalDate.parse(input, usedFormat);
-                goToDesiredDate(date);
-            }
-            endAnnouncement();
         }
     }
 
+
     /*
-     *EFFECTS: Give basic instructions.
+     *EFFECTS: Handle different commands, print calendar and produce niche info
      */
-    public static void endAnnouncement() {
-        System.out.println("Time for even more niches~~ ");
-        System.out.println("Enter a date (yyyy-MM-dd), or type 'tom' for tomorrow and 'yest' "
-                + "for yesterday, type ’today‘ to go back to today, type 'quit' to end program:");
+    public void handleCases(Scanner newCommand) {
+        checkAnnouncement();
+
+        while (checkKeepGoing) {
+            // Getting input
+            String input = newCommand.nextLine();
+            // Exit Option
+            if (input.equals("back")) {
+                checkKeepGoing = false;
+                homeKeepGoing = true;
+            } else {
+                nicheDate.modifyNicheDay(input);
+            }
+            LocalDate date = nicheDate.getNicheDay();
+            goToDesiredDate(date);
+        }
+    }
+
+
+
+
+    /*
+     *EFFECTS: take inputs from the user and make a niche holiday put it into glossary
+     */
+    public void addNicheDay() {
+        System.out.print("Enter month number");
+        int month = input.nextInt();
+        System.out.print("Enter day number");
+        int day = input.nextInt();
+        System.out.print("Enter the name of the holiday");
+        String name = input.next();
+
+        System.out.print("Enter a short description of your holiday");
+        String description = input.next();
+
+        NicheHoliday toAdd = new NicheHoliday(month, day, name, description);
+        loadedGlossary.addToGlossary(toAdd);
+        System.out.print("It is done");
+    }
+
+    /*
+     *EFFECTS: Give basic introAnnouncement.
+     */
+    public static void introAnnouncement() {
+        System.out.println("Enter 'add' to add your own NicheDay, enter 'check' "
+                + "to look at NicheDay, enter 'exit' to exit");
         System.out.print("Enters:");
     }
 
 
+    /*
+     *EFFECTS: Give basic instructions on checking dates.
+     */
+    public static void checkAnnouncement() {
+        System.out.println("Time for even more niches~~ ");
+        System.out.println("Enter a date (yyyy-MM-dd), or type 'tom' for tomorrow and 'yest' "
+                + "for yesterday, type ’today‘ to go back to today, type 'exit' to end program:");
+        System.out.print("Enters:");
+    }
 
 
     /*
      *EFFECTS: Produce the calendar view and niche info about today
      */
-    public static void initialization(int year, int month, LocalDate date) {
+    public void initialization(LocalDate date) {
         System.out.println("Today is " + date);
         System.out.println("Here is the Calendar");
-        printCalendar(year, month, date);
-        IsTodayNiche todayNiche = new IsTodayNiche();
-        todayNiche.main();
+        printCalendar(date);
+        isTodayNiche();
     }
 
 
-    /*
-     *EFFECTS: Decide if the given Boolean is an date we want
-     */
-    public static boolean isItADate(String date) {
-        try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            df.setLenient(false);
-            df.parse(date);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
 
 
     /*
      *REQUIRES: date must be a LocalDate
      *EFFECTS: Print out the month and niche information about that date
      */
-    private static void goToDesiredDate(LocalDate date) {
-
-        int year = date.getYear();
-        int month = date.getMonthValue();
-        int day = date.getDayOfMonth();
+    private void goToDesiredDate(LocalDate date) {
 
         // Print a calendar and niche info
-        printCalendar(year, month, date);
-        isThatDayNiche(year, month, day);
+        printCalendar(date);
+        isThatDayNiche(date);
     }
-
-
 
 
      /*
      *REQUIRES: year month and day being an actual date
      *EFFECTS: Print out relevant info about the checked niche holiday
      */
-    private static void isThatDayNiche(int year, int month, int day) {
+    private void isThatDayNiche(LocalDate dateInQuestion) {
 
         // Set up date
-        LocalDate date = LocalDate.of(year, month, day);
+        LocalDate date = dateInQuestion;
+        int month = date.getMonthValue();
+        int day = date.getDayOfMonth();
 
         // Check if the input date is a holiday
-        for (NicheHoliday nicheholiday : NICHE_GLOSSARY) {
+        for (NicheHoliday nicheholiday : loadedGlossary.getHolidays()) {
             if (nicheholiday.isTheGivenDay(month, day)) {
                 System.out.println(date + " is " + nicheholiday.getName());
                 System.out.println("Something about that day: " + nicheholiday.getNote());
@@ -140,6 +174,18 @@ public class NicheCalendar {
             }
         }
         System.out.println("what a terrible luck are you having? " + date + " is not niche");
+
+    }
+
+    public void isTodayNiche() {
+        for (NicheHoliday nicheholiday : loadedGlossary.getHolidays()) {
+            if (nicheholiday.isToday()) {
+                System.out.println("Wow, today is " + nicheholiday.getName());
+                System.out.println("Please note that " + nicheholiday.getNote());
+                return;
+            }
+        }
+        System.out.println("Sadly, today is boring, no niche holiday for today");
     }
 
 
@@ -148,10 +194,12 @@ public class NicheCalendar {
      *REQUIRES: year, month are consistent with the date.
      *EFFECTS: Print a date in their respective month in a calendar view.
      */
-    private static void printCalendar(int year, int month, LocalDate date) {
+    private static void printCalendar(LocalDate date) {
+        int year = date.getYear();
+        int month = date.getMonthValue();
         YearMonth yearMonth = YearMonth.of(year, month);
 
-        // Print the month and year on the toop
+        // Print the month and year on the top
         System.out.println(yearMonth.getMonth() + " " + year);
 
         // Print the first row that represent week

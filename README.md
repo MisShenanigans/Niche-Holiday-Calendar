@@ -27,5 +27,5 @@ in my life and I think it will do other people some help.
 ## As a user, I would like to go to a date and see it's month.
 ## As a user, I would like to go to check if a date I typed in is a niche holiday.
 ## As a user, I would like to move to tomorrow and yesterday to see if they are niche.
-
-
+## As a user, I want to be able save my NicheGlossary to file, (if so I choose)
+## As a user, I want to be able to load my NicheGlossary from file (if I so choose)

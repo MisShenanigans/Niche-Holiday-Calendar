@@ -1,11 +1,16 @@
 package ui;
 
 
+
+/**
+ The main program to run
+ */
+
 public class Main {
     public static void main(String[] args) {
-        NicheCalendar.main(args);
-
+        new NicheCalendar();
     }
+
 
 }
 
