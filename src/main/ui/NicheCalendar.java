@@ -17,7 +17,7 @@ import java.time.YearMonth;
  Primary user interface that handles user command, and result printing
  */
 public class NicheCalendar {
-    private static final String JSON_STORE = "./data/testReaderEmptyWorkRoom.json";
+    private static final String JSON_STORE = "./data/SavedNicheGlossary.json";
     private Scanner input;
     private NicheGlossary loadedGlossary;
     private NicheDate nicheDate;
@@ -26,6 +26,9 @@ public class NicheCalendar {
     private Boolean homeKeepGoing = true;
     private Boolean checkKeepGoing = false;
 
+    /*
+     *EFFECTS: Construct an object and initialize the entire class
+     */
     public NicheCalendar() {
         this.loadedGlossary = new NicheGlossary();
         this.nicheDate = new NicheDate();
@@ -80,6 +83,7 @@ public class NicheCalendar {
 
     /*
      *EFFECTS: Handle different commands, print calendar and produce niche info
+     *MODIFY: nicheDate
      */
     public void handleCalendarView(Scanner newCommand) {
 
@@ -108,7 +112,9 @@ public class NicheCalendar {
 
 
     /*
+     *REQUIRE: The first two inputs must consist a meaningful MonthDay
      *EFFECTS: take inputs from the user and make a niche holiday put it into glossary
+     *MODIFY: loadedGlossary
      */
     public void addNicheDay() {
         System.out.print("Enter month number: ");

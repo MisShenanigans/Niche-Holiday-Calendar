@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 /**
  The primary data type for check date functionality to operates on, it contains a LocalDate
- and a CheckedFormat to check
+ and a CheckedFormat to check if a string is within the required format
  */
 
 public class NicheDate {
