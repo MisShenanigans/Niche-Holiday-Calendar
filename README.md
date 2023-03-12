@@ -29,3 +29,12 @@ in my life and I think it will do other people some help.
 ## As a user, I would like to move to tomorrow and yesterday to see if they are niche.
 ## As a user, I want to be able save my NicheGlossary to file, (if so I choose)
 ## As a user, I want to be able to load my NicheGlossary from file (if I so choose)
+
+
+
+
+## Citation:
+Used JSON libraries from: https://github.com/stleary/JSON-java
+
+Persistence package and its corresponding tests are largely taken from https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+due to similarities in data types. 
