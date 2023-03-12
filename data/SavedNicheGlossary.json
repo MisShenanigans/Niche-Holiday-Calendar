@@ -1,6 +1,272 @@
-{"holidays": [{
-    "note": "It just works ~~~~",
-    "month": 11,
-    "name": "Tod Haward and Starfield",
-    "day": 11
-}]}
+{"holidays": [
+    {
+        "note": "today people jump into a cold water body just like polar bears",
+        "month": 1,
+        "name": "Polar Bear Plunge Day",
+        "day": 1
+    },
+    {
+        "note": "today we reach out to the future and tomorrow. And also, Space is extra cool",
+        "month": 1,
+        "name": "Science Fiction Day",
+        "day": 2
+    },
+    {
+        "note": "today we shall sleep on a justified course",
+        "month": 1,
+        "name": "Festival of Sleep Day",
+        "day": 3
+    },
+    {
+        "note": "this is the day you learn a bunch of useless stuff and act pedantic, perfect day tp use this program for help",
+        "month": 1,
+        "name": "Trivia Day",
+        "day": 4
+    },
+    {
+        "note": "go watch some birds, I guess?",
+        "month": 1,
+        "name": "Bird Day",
+        "day": 5
+    },
+    {
+        "note": "today is the day you slap the flat-earthers on their face",
+        "month": 1,
+        "name": "Earth's Rotation Day",
+        "day": 8
+    },
+    {
+        "note": "Yes please, you are supposed to feel better",
+        "month": 2,
+        "name": "Get Out Your Guitar Day",
+        "day": 11
+    },
+    {
+        "note": "revenge is often not the right curse of justice",
+        "month": 2,
+        "name": "Crime Victims Day in Europe",
+        "day": 22
+    },
+    {
+        "note": "feeding your dog baked dog biscuit is a great idea!",
+        "month": 2,
+        "name": "International Dog Biscuit Appreciation Day",
+        "day": 23
+    },
+    {
+        "note": "I don't know, marching and music does not sound like a good combination",
+        "month": 3,
+        "name": "Marching Music Day",
+        "day": 4
+    },
+    {
+        "note": "be sure to watch some stupid sitcoms today",
+        "month": 3,
+        "name": "Let's Laugh Day",
+        "day": 19
+    },
+    {
+        "note": "the proposal is an serious decision to make, please proceed with caution",
+        "month": 3,
+        "name": "Proposal Day",
+        "day": 20
+    },
+    {
+        "note": "in March 23, 1989, the Asclepius asteroid almost hit earth.you should celebrate today by celebrating life and all the second chances you have ever been given.",
+        "month": 3,
+        "name": "Near Miss Day",
+        "day": 23
+    },
+    {
+        "note": "Go to your play list and pick your least favourite song",
+        "month": 3,
+        "name": "Quirky Country Music Song Titles Day",
+        "day": 27
+    },
+    {
+        "note": "work is almost never fun, but I guess you will have to pretend it is fun",
+        "month": 4,
+        "name": "Fun at Work Day",
+        "day": 1
+    },
+    {
+        "note": "the use of the word, party, to refer to a gathering where people have a good time dates all the way back to 1922?",
+        "month": 4,
+        "name": "World Party Day",
+        "day": 3
+    },
+    {
+        "note": "Oh come on, April's Fool just ended 2 days ago. But if you missed April's fool, now is your chance !",
+        "month": 4,
+        "name": "Tell a Lie Day",
+        "day": 4
+    },
+    {
+        "note": "you only need to be kind to lawyers while your case is not end",
+        "month": 4,
+        "name": "Be Kind to Lawyers Day",
+        "day": 11
+    },
+    {
+        "note": "go here to learn writing your own Haiku from Grammarly https://www.grammarly.com/blog/how-to-write-haiku/",
+        "month": 4,
+        "name": "Haiku Poetry Day",
+        "day": 17
+    },
+    {
+        "note": "We already have Valentine's day, this is entirely redundant",
+        "month": 4,
+        "name": "Lover's Day",
+        "day": 23
+    },
+    {
+        "note": "today is made into a holiday to \u201cencourages girls and boys to dream without gender limitations and to think imaginatively about their family, work and community lives\u201d.",
+        "month": 4,
+        "name": "Take Our Daughters and Sons to Work Day",
+        "day": 27
+    },
+    {
+        "note": "World's greatest detective the Batman had his debut on May 1939. he is sometimes known as The Dark Knight and the Caped Crusader. And no one knows his real name is just Bruce Wayne",
+        "month": 5,
+        "name": "Batman Day",
+        "day": 1
+    },
+    {
+        "note": "may the Force be with you",
+        "month": 5,
+        "name": "May the Force/Star Wars Day",
+        "day": 4
+    },
+    {
+        "note": "They can really get everywhere and be annoying",
+        "month": 5,
+        "name": "World Bee Day",
+        "day": 20
+    },
+    {
+        "note": "Grab Your Towel and Don't panic",
+        "month": 5,
+        "name": "World Towel Day",
+        "day": 25
+    },
+    {
+        "note": "Lindy Hop originated in Harlem, New York City in the 1920s and 1930s. The day commemorates Frankie Manning, who some consider one of the creators of the dance form.",
+        "month": 5,
+        "name": "World Lindy Hop Day",
+        "day": 26
+    },
+    {
+        "note": "if you can\u2019t say something nice, don\u2019t say anything at all.",
+        "month": 6,
+        "name": "Say Something Nice Day",
+        "day": 1
+    },
+    {
+        "note": "that the word panic is derived from the Greek word associated with the Greek shepherd god Pan? According to mythology, Pan amused himself by striking fear among travelers in the woods.",
+        "month": 6,
+        "name": "International Panic Day",
+        "day": 18
+    },
+    {
+        "note": "I would rather get fries then onion rings",
+        "month": 6,
+        "name": "Onion Ring Day",
+        "day": 22
+    },
+    {
+        "note": "I forgot what I am about to put here",
+        "month": 7,
+        "name": "I Forgot Day",
+        "day": 2
+    },
+    {
+        "note": "For the sake of simplicity, I will not include anything extra here",
+        "month": 7,
+        "name": "Simplicity Day",
+        "day": 12
+    },
+    {
+        "note": "Tell you are secret, ice cream sandwich is delicious",
+        "month": 8,
+        "name": "Ice Cream Sandwich Day",
+        "day": 2
+    },
+    {
+        "note": "what happens if you hit Dwayne Johnson's ass? You hit the ROCK BOTTOM!",
+        "month": 8,
+        "name": "Tell a Joke Day",
+        "day": 16
+    },
+    {
+        "note": "some 12 Hasselblad cameras were left on the Moon by various missions? Some suggest that this was done in order to compensate for the weight of rock and soil samples the astronauts brought back to Earth",
+        "month": 8,
+        "name": "World Photo Day",
+        "day": 19
+    },
+    {
+        "note": "Stylistically, country music usually includes harmonies that are guided by instruments like the banjo, guitars and the harmonica.",
+        "month": 9,
+        "name": "International Country Music Day",
+        "day": 17
+    },
+    {
+        "note": "nowadays, the very subject of comic book itself can be regarded as an area of niche. do you know the that the Incredible Hulk, was originally drawn as a gray by its creator Stan Lee? However, because of printing issues, Marvel, the publisher of the comic decided to change him to green.",
+        "month": 9,
+        "name": "Comic Book Day",
+        "day": 25
+    },
+    {
+        "note": " Sultan Murad IV of the Ottoman Empire hated coffee so much that he made coffee drinking an offense punishable by death. In England, King Charles II fearing plots hatched over cups of coffee ordered all coffee houses shut.",
+        "month": 10,
+        "name": "International Coffee Day",
+        "day": 1
+    },
+    {
+        "note": "No one still uses a dictionary nowadays, so this holiday is dumb",
+        "month": 10,
+        "name": "Dictionary Day",
+        "day": 16
+    },
+    {
+        "note": "historians believe that the first magic performance was held in 2700 BCE by an Egyptian magician called Dedi?",
+        "month": 10,
+        "name": "Magic Day",
+        "day": 31
+    },
+    {
+        "note": " chaos is part of life and that it will never die. So instead of getting hassled by it, just take a deep breath and let go of  things that create chaos in your life on this day.",
+        "month": 11,
+        "name": "Chaos Never Dies Day",
+        "day": 9
+    },
+    {
+        "note": "let's all be PICKLE RIIIIIIK for a day",
+        "month": 11,
+        "name": "Pickle Day",
+        "day": 14
+    },
+    {
+        "note": "got a messy refrigerator? Now is time for some cleanning",
+        "month": 11,
+        "name": "Clean Out Your Refrigerator Day",
+        "day": 15
+    },
+    {
+        "note": "the opposite of an underdog is a top dog and in if an underdog wins in a competition, the outcome of the event is known as an upset.",
+        "month": 12,
+        "name": "Underdog Day",
+        "day": 15
+    },
+    {
+        "note": "instead of marry christmas, you should say may the Force be proportional to your acceleration",
+        "month": 12,
+        "name": "Grav Mass Day or Newtonmas",
+        "day": 25
+    },
+    {
+        "note": "It just works ~~~~",
+        "month": 11,
+        "name": "Tod Haward and Starfield",
+        "day": 11
+    }
+]}
