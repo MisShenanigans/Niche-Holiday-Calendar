@@ -1,12 +1,15 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.time.LocalDate;
 import java.time.MonthDay;
 
 /**
  This class is used to represent a NicheHoliday with its MonthDay, name and additional info
  */
-public class NicheHoliday {
+public class NicheHoliday implements Writable {
 
     private MonthDay date;                 // Month and Date of the niche holiday
     private String name;                   // name of the niche holiday
@@ -51,7 +54,7 @@ public class NicheHoliday {
     *EFFECTS: change the niche holiday's date
     */
     public void changeDate(int holidayMonth, int holidayDay) {
-        this.date =  MonthDay.of(holidayMonth, holidayDay);
+        this.date = MonthDay.of(holidayMonth, holidayDay);
     }
 
     /*
@@ -101,4 +104,15 @@ public class NicheHoliday {
     }
 
 
+    @Override
+    public JSONObject toJson() {
+        int month = date.getMonthValue();
+        int day = date.getDayOfMonth();
+        JSONObject json = new JSONObject();
+        json.put("month", month);
+        json.put("day", day);
+        json.put("name", name);
+        json.put("note", note);
+        return json;
+    }
 }

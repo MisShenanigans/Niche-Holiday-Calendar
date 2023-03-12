@@ -1,7 +1,5 @@
 package ui;
 
-
-
 /**
  The main program to run
  */

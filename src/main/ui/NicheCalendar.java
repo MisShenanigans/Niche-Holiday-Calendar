@@ -2,7 +2,11 @@ package ui;
 
 import model.NicheDate;
 import model.NicheHoliday;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -13,9 +17,12 @@ import java.time.YearMonth;
  Primary user interface that handles user command, and result printing
  */
 public class NicheCalendar {
+    private static final String JSON_STORE = "./data/testReaderEmptyWorkRoom.json";
     private Scanner input;
     private NicheGlossary loadedGlossary;
     private NicheDate nicheDate;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
     private Boolean homeKeepGoing = true;
     private Boolean checkKeepGoing = false;
 
@@ -24,16 +31,17 @@ public class NicheCalendar {
         this.nicheDate = new NicheDate();
         this.input = new Scanner(System.in);
         LocalDate date = nicheDate.getNicheDay();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         initialization(date);
-        introAnnouncement();
 
         while (true) {
             if (homeKeepGoing) {
                 introAnnouncement();
                 handleHomePage(input);
             } else if (checkKeepGoing) {
-                handleCases(input);
+                handleCalendarView(input);
             } else {
                 break;
             }
@@ -54,12 +62,17 @@ public class NicheCalendar {
             if (input.equals("add")) {
                 addNicheDay();
                 introAnnouncement();
+            } else if (input.equals("save")) {
+                saveNicheGlossary();
+            } else if (input.equals("load")) {
+                loadNicheGlossary();
             } else if (input.equals("check")) {
                 homeKeepGoing = false;
                 checkKeepGoing = true;
             } else if (input.equals("exit")) {
                 homeKeepGoing = false;
                 checkKeepGoing = false;
+                break;
             }
         }
     }
@@ -68,16 +81,21 @@ public class NicheCalendar {
     /*
      *EFFECTS: Handle different commands, print calendar and produce niche info
      */
-    public void handleCases(Scanner newCommand) {
-        checkAnnouncement();
+    public void handleCalendarView(Scanner newCommand) {
+
 
         while (checkKeepGoing) {
+            checkAnnouncement();
             // Getting input
             String input = newCommand.nextLine();
             // Exit Option
             if (input.equals("back")) {
                 checkKeepGoing = false;
                 homeKeepGoing = true;
+            } else if (input.equals("exit")) {
+                checkKeepGoing = false;
+                homeKeepGoing = false;
+                break;
             } else {
                 nicheDate.modifyNicheDay(input);
             }
@@ -93,15 +111,18 @@ public class NicheCalendar {
      *EFFECTS: take inputs from the user and make a niche holiday put it into glossary
      */
     public void addNicheDay() {
-        System.out.print("Enter month number");
+        System.out.print("Enter month number: ");
         int month = input.nextInt();
-        System.out.print("Enter day number");
+        System.out.print("Enter day number: ");
         int day = input.nextInt();
-        System.out.print("Enter the name of the holiday");
-        String name = input.next();
 
-        System.out.print("Enter a short description of your holiday");
-        String description = input.next();
+        input.nextLine();
+        System.out.print("Enter the name of the holiday: ");
+        String name = input.nextLine();
+
+        input.nextLine();
+        System.out.print("Enter a short description of your holiday: ");
+        String description = input.nextLine();
 
         NicheHoliday toAdd = new NicheHoliday(month, day, name, description);
         loadedGlossary.addToGlossary(toAdd);
@@ -112,8 +133,13 @@ public class NicheCalendar {
      *EFFECTS: Give basic introAnnouncement.
      */
     public static void introAnnouncement() {
-        System.out.println("Enter 'add' to add your own NicheDay, enter 'check' "
-                + "to look at NicheDay, enter 'exit' to exit");
+        System.out.println("Enter one of the given options");
+        System.out.println("\nSelect from:");
+        System.out.println("\tadd -> add your own NicheDay");
+        System.out.println("\tsave -> save your Niche Glossary");
+        System.out.println("\tload -> load your Niche Glossary");
+        System.out.println("\tcheck -> look at NicheHoliday Calender");
+        System.out.println("\texit -> end program");
         System.out.print("Enters:");
     }
 
@@ -123,9 +149,40 @@ public class NicheCalendar {
      */
     public static void checkAnnouncement() {
         System.out.println("Time for even more niches~~ ");
-        System.out.println("Enter a date (yyyy-MM-dd), or type 'tom' for tomorrow and 'yest' "
-                + "for yesterday, type ’today‘ to go back to today, type 'exit' to end program:");
+        System.out.println("Enter one of the given options");
+        System.out.println("\nSelect from:");
+        System.out.println("\tdate -> in (yyyy-MM-dd) to go to your entered date");
+        System.out.println("\ttom -> go to tomorrow");
+        System.out.println("\tyest -> go to yesterday");
+        System.out.println("\ttoday -> go back to today");
+        System.out.println("\tback -> go back to previous menu");
+        System.out.println("\texit -> end program");
         System.out.print("Enters:");
+    }
+
+
+    // EFFECTS: saves the loadedGlossary to file
+    private void saveNicheGlossary() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(loadedGlossary);
+            jsonWriter.close();
+            System.out.println("Saved " + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: loads loadedGlossary from file
+    private void loadNicheGlossary() {
+        try {
+            loadedGlossary = jsonReader.read();
+            System.out.println("Loaded " +  " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
 

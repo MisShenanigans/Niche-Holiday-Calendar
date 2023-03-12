@@ -1,18 +1,22 @@
 package ui;
 
 import model.NicheHoliday;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
 /**
  The glossary for all Niche holidays recorded in this program
  */
-public class NicheGlossary {
+public class NicheGlossary implements Writable {
     private NicheHoliday[] holidays;
 
     /*
      * EFFECTS: construct an NicheGlossary with same as NICHE_GLOSSARY
      */
     public NicheGlossary() {
-        holidays = NICHE_GLOSSARY;
+        //holidays = NICHE_GLOSSARY;
+        holidays = new NicheHoliday[] {};
     }
 
     /*
@@ -30,6 +34,24 @@ public class NicheGlossary {
         newHolidays[holidays.length] = newHoliday;
 
         holidays = newHolidays;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("holidays", holidaysToJson());
+        return json;
+    }
+
+    // EFFECTS: returns Holidays in this Holiday Glossary as a JSON array
+    private JSONArray holidaysToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (NicheHoliday h : holidays) {
+            jsonArray.put(h.toJson());
+        }
+
+        return jsonArray;
     }
 
     /*
@@ -188,11 +210,6 @@ public class NicheGlossary {
                             + "may the Force be proportional to your acceleration")
 
     };
-
-
-
-
-
 
 
 }
