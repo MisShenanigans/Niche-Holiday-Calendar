@@ -5,8 +5,10 @@ package ui;
  */
 
 public class Main {
+
     public static void main(String[] args) {
-        new NicheCalendar();
+        new NicheCalendarGUI();
+        // new NicheCalendar();
     }
 
 
