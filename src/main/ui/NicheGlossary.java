@@ -36,6 +36,9 @@ public class NicheGlossary implements Writable {
         holidays = newHolidays;
     }
 
+
+
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -101,6 +104,8 @@ public class NicheGlossary implements Writable {
                             + "chances you have ever been given."),
             new NicheHoliday(3, 27, "Quirky Country Music Song Titles Day",
                     "Go to your play list and pick your least favourite song"),
+            new NicheHoliday(3, 28, "Something on a Stick Day",
+                    "saldjslajdal sjlsjldjsl sdsljdljsldj sldjsljdlsjd sldjsldjlsjd"),
 
             // April
             new NicheHoliday(4, 1, "Fun at Work Day",
