@@ -240,6 +240,9 @@ public class NicheCalendar {
 
     }
 
+    /*
+     *EFFECTS: Return info regarding to if today is niche
+     */
     public void isTodayNiche() {
         for (NicheHoliday nicheholiday : loadedGlossary.getHolidays()) {
             if (nicheholiday.isToday()) {

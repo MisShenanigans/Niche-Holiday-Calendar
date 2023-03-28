@@ -18,7 +18,7 @@ import javax.swing.border.Border;
 
 
 /**
- Primary user interface that handles user command, and result printing
+ Primary graphic user interface that handles graphic based command.
  */
 public class NicheCalendarGUI {
     private static final String JSON_STORE = "./data/SavedNicheGlossary3.json";
@@ -83,7 +83,7 @@ public class NicheCalendarGUI {
     private final ImageIcon calendarViewExample  = new ImageIcon("CalendarView Example.jpg");
 
     /*
-     *EFFECTS: Construct an object and initialize the entire class
+     *EFFECTS: Set up frame and panels, also initialization
      */
     public NicheCalendarGUI() {
         this.loadedGlossary = new NicheGlossary();
@@ -111,8 +111,12 @@ public class NicheCalendarGUI {
         //mainFrame.pack();
 
         mainFrame.setVisible(true);
+        printCalendar(nicheDate.getNicheDay());
     }
 
+    /*
+     *EFFECTS: Set up the panel for GoToDay related functionalities
+     */
     public void goToDayPanelSetUp() {
 
         // set up panel
@@ -154,59 +158,55 @@ public class NicheCalendarGUI {
 
     }
 
+    /*
+     *EFFECTS: Set up the panel for persistence related functionalities
+     */
     public void saveLoadHolderSetUp() {
 
+        // set up panel
         saveLoadHolder.setBackground(Color.LIGHT_GRAY);
         saveLoadHolder.setBounds(360, 200, 140, 105);
         saveLoadHolder.setLayout(null);
 
+        // set up save button
         saveButton.setBounds(20, 10, 100, 40);
         saveButton.setText("SAVE");
         saveButton.setFocusable(false);
         saveButton.addActionListener(this::doSave);
 
+        // set up load button
         loadButton.setBounds(20, 55, 100, 40);
         loadButton.setText("LOAD");
         loadButton.setFocusable(false);
         loadButton.addActionListener(this::doLoad);
 
-
+        // put stuff in use
         saveLoadHolder.add(saveButton);
         saveLoadHolder.add(loadButton);
         mainFrame.add(saveLoadHolder);
 
     }
 
-    public void doSave(ActionEvent e) {
-        if (e.getSource() == saveButton) {
-            saveNicheGlossary();
-        }
-    }
 
-    public void doLoad(ActionEvent e) {
-        if (e.getSource() == loadButton) {
-            loadNicheGlossary();
-        }
-    }
-
-
-
-
-
-
+    /*
+     *EFFECTS: Set up the panel for Add Niche Holiday related functionalities
+     */
     @SuppressWarnings("methodlength")
     public void addDayHolderPanelSetUp() {
 
+        // set up the panel
         addDayHolder.setBackground(Color.LIGHT_GRAY);
         addDayHolder.setBounds(20, 200, 140, 355);
         addDayHolder.setLayout(null);
 
+        // set up the add button
         addButton.setBounds(20, 10, 100, 30);
         addButton.setText("Add Date");
         addButton.setFocusable(false);
         addButton.addActionListener(this::addDate);
 
 
+        // set up text box and instructions
         JLabel monthInstruction = new JLabel("Enter Month Number");
         monthInstruction.setBounds(10, 45, 120, 25);
         recordedMonth.setBounds(10, 70, 120, 35);
@@ -224,6 +224,7 @@ public class NicheCalendarGUI {
         nicheDescription.setBounds(10, 265, 120, 80);
 
 
+        // put stuff in use
         addDayHolder.add(addButton);
         addDayHolder.add(monthInstruction);
         addDayHolder.add(recordedMonth);
@@ -237,6 +238,9 @@ public class NicheCalendarGUI {
         isThatDayNiche(nicheDate.getNicheDay());
     }
 
+    /*
+     *EFFECTS: Set up the calendar view (not finished) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     */
     public void calendarViewSetUp() {
 
         //String calendarContent = printCalendar(date);
@@ -261,13 +265,17 @@ public class NicheCalendarGUI {
     }
 
 
-
+    /*
+     *EFFECTS: Set up the top info bar related functionalities
+     */
     public void topInfBarSetUp() {
+        // set up top bar panel
         topInfoHolder.setBackground(new Color(0, 102, 204));
         topInfoHolder.setBounds(20, 20, 940, 150);
         topInfoHolder.setLayout(null);
 
         isTodayNiche();
+        // set up first line of words
         whatDatItIs.setBounds(100,10, 740, 60);
         whatDatItIs.setHorizontalTextPosition(JLabel.CENTER);
         whatDatItIs.setVerticalTextPosition(JLabel.CENTER);
@@ -275,6 +283,7 @@ public class NicheCalendarGUI {
         whatDatItIs.setVerticalAlignment(JLabel.TOP);
         whatDatItIs.setFont(new Font("Verdana", Font.PLAIN, 20));
 
+        // set up second line of words
         additionalInfo.setBounds(100, 80, 740, 70);
         additionalInfo.setHorizontalTextPosition(JLabel.CENTER);
         additionalInfo.setVerticalTextPosition(JLabel.CENTER);
@@ -284,6 +293,7 @@ public class NicheCalendarGUI {
 
         arrowButtonSetUp();
 
+        // put stuff in use
         topInfoHolder.add(whatDatItIs);
         topInfoHolder.add(additionalInfo);
         topInfoHolder.add(yesterday);
@@ -291,6 +301,9 @@ public class NicheCalendarGUI {
         mainFrame.add(topInfoHolder);
     }
 
+    /*
+     *EFFECTS: Set up Tomorrow and Yesterday button
+     */
     public void arrowButtonSetUp() {
         yesterday.setBounds(0,0, 120, 40);
         yesterday.setText("<-Yesterday");
@@ -303,24 +316,54 @@ public class NicheCalendarGUI {
         tomorrow.addActionListener(this::goTomorrow);
     }
 
+
+    /*
+     *EFFECTS: Execute save button
+     */
+    public void doSave(ActionEvent e) {
+        if (e.getSource() == saveButton) {
+            saveNicheGlossary();
+        }
+    }
+
+    /*
+     *EFFECTS: Execute load button
+     */
+    public void doLoad(ActionEvent e) {
+        if (e.getSource() == loadButton) {
+            loadNicheGlossary();
+            isThatDayNiche(nicheDate.getNicheDay());
+        }
+    }
+
+    /*
+     *EFFECTS: Execute Yesterday button
+     */
     public void goYesterday(ActionEvent e) {
         if (e.getSource() == yesterday) {
             nicheDate.modifyNicheDay("yest");
             isThatDayNiche(nicheDate.getNicheDay());
+            System.out.println("You reached Yesterday~");
+            printCalendar(nicheDate.getNicheDay());
         }
     }
 
+    /*
+     *EFFECTS: Execute Tomorrow button
+     */
     public void goTomorrow(ActionEvent e) {
         if (e.getSource() == tomorrow) {
             nicheDate.modifyNicheDay("tom");
             isThatDayNiche(nicheDate.getNicheDay());
+            System.out.println("You arrived Tomorrow~");
+            printCalendar(nicheDate.getNicheDay());
         }
     }
 
 
-
-
-
+    /*
+     *EFFECTS: Execute add Date button that adds a niche holiday
+     */
     public void addDate(ActionEvent e) {
         if (e.getSource() == addButton) {
             String month = recordedMonth.getText();
@@ -341,23 +384,30 @@ public class NicheCalendarGUI {
 
 
 
-
+    /*
+     *EFFECTS: Execute Today button that returns to today
+     */
     public void returnToToday(ActionEvent e) {
         if (e.getSource() == goToToday) {
             System.out.println("You are back");
             isTodayNiche();
             nicheDate.modifyNicheDay("today");
+            printCalendar(nicheDate.getNicheDay());
         }
 
     }
 
 
+    /*
+     *EFFECTS: Execute Let's Go button that goes to the desired date
+     */
     public void letsGoToDay(ActionEvent e) {
         if (e.getSource() == goToDay) {
             System.out.println("here we go");
             String command = desiredDate.getText();
             nicheDate.modifyNicheDay(command);
             isThatDayNiche(nicheDate.getNicheDay());
+            printCalendar(nicheDate.getNicheDay());
         }
 
     }
@@ -415,12 +465,16 @@ public class NicheCalendarGUI {
         additionalInfo.setText(date + " is not niche");
     }
 
+
+    /*
+     *EFFECTS: Return info regarding to if today is niche
+     */
     public void isTodayNiche() {
         for (NicheHoliday nicheholiday : loadedGlossary.getHolidays()) {
             if (nicheholiday.isToday()) {
                 whatDatItIs.setText("<html> Wow, today is " + LocalDate.now()
                         + " <br>" + nicheholiday.getName() + "</html>");
-                additionalInfo.setText("<html> Please note that <br>" + nicheholiday.getNote() + "</html>");
+                additionalInfo.setText("<html> Something about Today: <br>" + nicheholiday.getNote() + "</html>");
                 return;
             }
         }
@@ -434,16 +488,16 @@ public class NicheCalendarGUI {
      *REQUIRES: year, month are consistent with the date.
      *EFFECTS: Print a date in their respective month in a calendar view.
      */
-    private void printCalendar(LocalDate date) {
+    private static void printCalendar(LocalDate date) {
         int year = date.getYear();
         int month = date.getMonthValue();
         YearMonth yearMonth = YearMonth.of(year, month);
 
         // Print the month and year on the top
-        monthYearInfo = yearMonth.getMonth() + " " + year;
+        System.out.println(yearMonth.getMonth() + " " + year);
 
         // Print the first row that represent week
-        dayOfWeekName = " Su Mo Tu We Th Fr Sa";
+        System.out.println(" Su Mo Tu We Th Fr Sa");
 
         // Find where to start
         int startDay = yearMonth.atDay(1).getDayOfWeek().getValue();
@@ -465,7 +519,7 @@ public class NicheCalendarGUI {
     /*
      *EFFECTS: Additional helper method due to line number restriction
      */
-    private void handleInteger(int i, LocalDate date, int startDay) {
+    private static void handleInteger(int i, LocalDate date, int startDay) {
         if (i == date.getDayOfMonth()) {
             System.out.print("\u001B[34m");  // Note: change the color here
         }
