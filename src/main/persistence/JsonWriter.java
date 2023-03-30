@@ -2,7 +2,7 @@ package persistence;
 
 
 import org.json.JSONObject;
-import ui.NicheGlossary;
+import model.NicheGlossary;
 
 
 import java.io.*;

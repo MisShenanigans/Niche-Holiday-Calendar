@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class NicheHolidaysTest {
     private NicheHoliday towelsDay;
     private NicheHoliday newtonmas;
+    private NicheHoliday testHolidayI;
+
 
     @BeforeEach
     void runBefore(){
@@ -23,7 +25,15 @@ public class NicheHolidaysTest {
         newtonmas = new NicheHoliday(12,25,
                 "Grav Mass Day or Newtonmas",
                 "instead of marry christmas, you should say "
-                        + "may the Force be proportional to your acceleration");}
+                        + "may the Force be proportional to your acceleration");
+
+
+        testHolidayI = new NicheHoliday(3, 28, "Something on a Stick Day",
+                "There isn’t much that can’t be put on a stick when talking about food. Soup might "
+                        + "be that one exception, though if it were flavorful frozen, "
+                        + "we might make an exception.");
+
+    }
 
 
     @Test
@@ -59,6 +69,7 @@ public class NicheHolidaysTest {
         assertFalse(newtonmas.isTheGivenDay(12, 26));
         assertFalse(towelsDay.isTheGivenDay(5, 26));
         assertFalse(towelsDay.isTheGivenDay(12, 25));
+        assertFalse(testHolidayI.isTheGivenDay(2,23));
     }
 
 

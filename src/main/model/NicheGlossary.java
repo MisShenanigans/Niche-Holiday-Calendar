@@ -1,22 +1,35 @@
-package ui;
+package model;
 
 import model.NicheHoliday;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.time.LocalDate;
+import java.time.MonthDay;
+import java.util.ArrayList;
+
 /**
  The glossary for all Niche holidays recorded in this program
  */
 public class NicheGlossary implements Writable {
-    private NicheHoliday[] holidays;
+    private ArrayList<NicheHoliday> holidays;
 
     /*
-     * EFFECTS: construct an NicheGlossary with same as NICHE_GLOSSARY
+     * EFFECTS: construct an NicheGlossary
      */
     public NicheGlossary() {
-        //holidays = NICHE_GLOSSARY;
-        holidays = new NicheHoliday[] {};
+        holidays = new ArrayList<NicheHoliday>();
+    }
+
+
+    /*
+     * EFFECTS: load NICHE_GLOSSARY into holidays;
+     */
+    public void loadDefaultNicheGlossary() {
+        for (int i = 0; i < NICHE_GLOSSARY.length; i++) {
+            holidays.add(NICHE_GLOSSARY[i]);
+        }
     }
 
     /*
@@ -25,15 +38,23 @@ public class NicheGlossary implements Writable {
      * Effects: add the inputted NicheHoliday into the NicheGlossary
      */
     public void addToGlossary(NicheHoliday newHoliday) {
-        NicheHoliday[] newHolidays = new NicheHoliday[holidays.length + 1];
+        holidays.add(newHoliday);
+    }
 
-        for (int i = 0; i < holidays.length; i++) {
-            newHolidays[i] = holidays[i];
-        }
+    /*
+     * REQUIRE: toAdd must be a functioning NicheHoliday
+     * MODIFY: This
+     * Effects: remove the inputted NicheHoliday into the NicheGlossary
+     */
+    public void removeFromGlossary(int monthToRemove, int dayToRemove) {
+        holidays.removeIf(nh -> nh.isTheGivenDay(monthToRemove, dayToRemove));
+    }
 
-        newHolidays[holidays.length] = newHoliday;
-
-        holidays = newHolidays;
+    /*
+     * Effects: return nicheGlossary
+     */
+    public ArrayList<NicheHoliday> getHolidays() {
+        return holidays;
     }
 
 
@@ -57,12 +78,6 @@ public class NicheGlossary implements Writable {
         return jsonArray;
     }
 
-    /*
-     * Effects: return nicheGlossary
-     */
-    public NicheHoliday[] getHolidays() {
-        return holidays;
-    }
 
 
     public static final NicheHoliday[] NICHE_GLOSSARY =  {
@@ -105,7 +120,9 @@ public class NicheGlossary implements Writable {
             new NicheHoliday(3, 27, "Quirky Country Music Song Titles Day",
                     "Go to your play list and pick your least favourite song"),
             new NicheHoliday(3, 28, "Something on a Stick Day",
-                    "saldjslajdal sjlsjldjsl sdsljdljsldj sldjsljdlsjd sldjsldjlsjd"),
+                    "There isn’t much that can’t be put on a stick when talking about food. Soup might "
+                            + "be that one exception, though if it were flavorful frozen, "
+                            + "we might make an exception."),
 
             // April
             new NicheHoliday(4, 1, "Fun at Work Day",

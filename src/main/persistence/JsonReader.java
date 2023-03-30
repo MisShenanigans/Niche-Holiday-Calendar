@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import model.NicheHoliday;
 import org.json.*;
-import ui.NicheGlossary;
+import model.NicheGlossary;
 
 // Represents a reader that reads NicheGlossary from JSON data stored in file
 public class JsonReader {

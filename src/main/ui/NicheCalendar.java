@@ -1,6 +1,7 @@
 package ui;
 
 import model.NicheDate;
+import model.NicheGlossary;
 import model.NicheHoliday;
 import persistence.JsonReader;
 import persistence.JsonWriter;

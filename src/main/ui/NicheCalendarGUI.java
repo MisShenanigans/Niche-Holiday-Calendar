@@ -1,6 +1,7 @@
 package ui;
 
 import model.NicheDate;
+import model.NicheGlossary;
 import model.NicheHoliday;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -12,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.border.Border;
@@ -28,8 +30,8 @@ public class NicheCalendarGUI {
     private NicheDate nicheDate;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private Boolean homeKeepGoing = true;
-    private Boolean checkKeepGoing = false;
+    private String logDisplay;
+    private int count;
 
 
     private JFrame mainFrame = new JFrame();
@@ -54,6 +56,8 @@ public class NicheCalendarGUI {
     private final JLabel calendarView = new JLabel();
     private final JLabel whatDatItIs = new JLabel();
     private final JLabel additionalInfo = new JLabel();
+    private final JLabel holidayCount = new JLabel();
+    private ArrayList<JLabel> holidayLogList;
 
     // Panel set up
     private JPanel calenderViewHolder = new JPanel();
@@ -61,6 +65,8 @@ public class NicheCalendarGUI {
     private final JPanel addDayHolder = new JPanel();
     private final JPanel saveLoadHolder = new JPanel();
     private final JPanel topInfoHolder = new JPanel();
+    private final JPanel removeHolder = new JPanel();
+    private final JPanel holidayLog = new JPanel();
 
     private final JButton goToDay = new JButton();
     private final JButton goToToday = new JButton();
@@ -70,10 +76,14 @@ public class NicheCalendarGUI {
     private final JButton addButton = new JButton();
     private final JButton tomorrow = new JButton();
     private final JButton yesterday = new JButton();
+    private final JButton removeThat = new JButton();
+    private final JButton removeThis = new JButton();
 
     private final JTextField desiredDate = new JTextField();
     private final JTextField recordedMonth = new JTextField();
+    private final JTextField removedMonth = new JTextField();
     private final JTextField recordedDay = new JTextField();
+    private final JTextField removedDay = new JTextField();
     private final JTextField nicheName = new JTextField();
     private final JTextArea nicheDescription = new JTextArea();
 
@@ -87,6 +97,7 @@ public class NicheCalendarGUI {
      */
     public NicheCalendarGUI() {
         this.loadedGlossary = new NicheGlossary();
+        loadedGlossary.loadDefaultNicheGlossary();
         this.nicheDate = new NicheDate();
         this.input = new Scanner(System.in);
         LocalDate date = nicheDate.getNicheDay();
@@ -107,12 +118,78 @@ public class NicheCalendarGUI {
         addDayHolderPanelSetUp();
         saveLoadHolderSetUp();
         topInfBarSetUp();
+        removeHolderSetUp();
+        holidayLogSetUp();
 
         //mainFrame.pack();
 
         mainFrame.setVisible(true);
         printCalendar(nicheDate.getNicheDay());
+
     }
+
+    @SuppressWarnings("methodlength")
+    public void holidayLogSetUp() {
+        // set up panel
+        holidayLog.setBackground(Color.LIGHT_GRAY);
+        holidayLog.setBounds(520, 200, 130, 350);
+
+        JLabel name = new JLabel();
+        name.setBounds(0, 0, 130, 50);
+        name.setVerticalAlignment(JLabel.CENTER);
+        name.setHorizontalAlignment(JLabel.CENTER);
+        name.setText("Holiday Log");
+        name.setFont(new Font(" ", Font.BOLD, 20));
+
+
+        holidayCount.setBounds(0, 50, 130, 50);
+        holidayCount.setVerticalAlignment(JLabel.CENTER);
+        holidayCount.setHorizontalAlignment(JLabel.CENTER);
+        updateCount();
+        //assignLog();
+
+
+        holidayLog.add(name);
+        holidayLog.add(holidayCount);
+        mainFrame.add(holidayLog);
+    }
+
+
+    /*
+     *EFFECTS: update Holidat number count display
+     */
+    public void updateCount() {
+        count = loadedGlossary.getHolidays().size();
+        logDisplay = "<html>Current Holiday <br> Number: " + count + "</html>";
+        holidayCount.setText(logDisplay);
+    }
+
+    /*
+     *EFFECTS: Assign Holidays names to JLabels and put them onto the JPanel
+     * Not finished!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     */
+    public void assignLog() {
+        holidayLogList = new ArrayList<JLabel>();
+        for (int i = loadedGlossary.getHolidays().size(); i > 1; i--) {
+            JLabel toAdd = new JLabel();
+            toAdd.setBounds(0, 50 + (i * 30), 130, 30);
+            toAdd.setVerticalAlignment(JLabel.CENTER);
+            toAdd.setHorizontalAlignment(JLabel.CENTER);
+            toAdd.setFont(new Font(" ", Font.BOLD, 15));
+            String content = loadedGlossary.getHolidays().get(i).getName();
+            toAdd.setText(content);
+            holidayLogList.add(toAdd);
+        }
+
+        for (JLabel toPut : holidayLogList) {
+            holidayLog.add(toPut);
+        }
+
+    }
+
+
+
+
 
     /*
      *EFFECTS: Set up the panel for GoToDay related functionalities
@@ -159,24 +236,104 @@ public class NicheCalendarGUI {
     }
 
     /*
+     *EFFECTS: Set up the panel for Remove Holiday related functionalities
+     */
+    @SuppressWarnings("methodlength")
+    public void removeHolderSetUp() {
+
+        // set up panel
+        removeHolder.setBackground(Color.LIGHT_GRAY);
+        removeHolder.setBounds(360, 200, 140, 250);
+        removeHolder.setLayout(null);
+
+
+        // set up removeThis button
+        removeThis.setBounds(20, 10, 100, 40);
+        removeThis.setText("Remove This");
+        removeThis.setFont(new Font(" ", Font.BOLD, 10));
+        removeThis.setFocusable(false);
+        removeThis.addActionListener(this::removeThisOne);
+
+
+        // set up text box and instructions
+        JLabel monthInstruction = new JLabel("Enter Month Number");
+        monthInstruction.setBounds(10, 55, 120, 25);
+        removedMonth.setBounds(10, 80, 120, 35);
+
+        JLabel dayInstruction = new JLabel("Enter Day Number");
+        dayInstruction.setBounds(10, 120, 120, 25);
+        removedDay.setBounds(10, 145, 120, 35);
+
+        // set up removeThat button
+        removeThat.setBounds(20, 195, 100, 40);
+        removeThat.setText("Remove that");
+        removeThat.setFont(new Font(" ", Font.BOLD, 10));
+        removeThat.setFocusable(false);
+        removeThat.addActionListener(this::removeThatOne);
+
+
+        removeHolder.add(removeThat);
+        removeHolder.add(removedDay);
+        removeHolder.add(removedMonth);
+        removeHolder.add(dayInstruction);
+        removeHolder.add(monthInstruction);
+        removeHolder.add(removeThis);
+        mainFrame.add(removeHolder);
+    }
+
+
+    /*
+     *EFFECTS: Set up remove that button
+     */
+    public void removeThatOne(ActionEvent e) {
+        if (e.getSource() == removeThat) {
+            String monthToRemove = removedMonth.getText();
+            int monthNumToRemove = Integer.parseInt(monthToRemove);
+            String dayToRemove = removedDay.getText();
+            int dayNumToRemove = Integer.parseInt(dayToRemove);
+            loadedGlossary.removeFromGlossary(monthNumToRemove, dayNumToRemove);
+            isThatDayNiche(nicheDate.getNicheDay());
+            updateCount();
+        }
+    }
+
+
+    /*
+     *EFFECTS: Set up remove this button
+     */
+    public void removeThisOne(ActionEvent e) {
+        if (e.getSource() == removeThis) {
+            int monthToRemove = nicheDate.getNicheDay().getMonthValue();
+            int dayToRemove = nicheDate.getNicheDay().getDayOfMonth();
+            loadedGlossary.removeFromGlossary(monthToRemove, dayToRemove);
+            isThatDayNiche(nicheDate.getNicheDay());
+            updateCount();
+        }
+    }
+
+
+
+    /*
      *EFFECTS: Set up the panel for persistence related functionalities
      */
     public void saveLoadHolderSetUp() {
 
         // set up panel
         saveLoadHolder.setBackground(Color.LIGHT_GRAY);
-        saveLoadHolder.setBounds(360, 200, 140, 105);
+        saveLoadHolder.setBounds(190, 400, 140, 50);
         saveLoadHolder.setLayout(null);
 
         // set up save button
-        saveButton.setBounds(20, 10, 100, 40);
+        saveButton.setBounds(5, 5, 65, 40);
         saveButton.setText("SAVE");
+        saveButton.setFont(new Font(" ", Font.BOLD, 10));
         saveButton.setFocusable(false);
         saveButton.addActionListener(this::doSave);
 
         // set up load button
-        loadButton.setBounds(20, 55, 100, 40);
+        loadButton.setBounds(70, 5, 65, 40);
         loadButton.setText("LOAD");
+        loadButton.setFont(new Font(" ", Font.BOLD, 10));
         loadButton.setFocusable(false);
         loadButton.addActionListener(this::doLoad);
 
@@ -186,6 +343,7 @@ public class NicheCalendarGUI {
         mainFrame.add(saveLoadHolder);
 
     }
+
 
 
     /*
@@ -257,7 +415,7 @@ public class NicheCalendarGUI {
         calendarView.setBorder(usedBorder);
         calendarView.setVerticalAlignment(JLabel.CENTER);
         calendarView.setHorizontalAlignment(JLabel.CENTER);
-        calendarView.setBounds(520,200,420,350);
+        calendarView.setBounds(670,300,300,250);
 
 
         mainFrame.add(calendarView);
@@ -323,6 +481,7 @@ public class NicheCalendarGUI {
     public void doSave(ActionEvent e) {
         if (e.getSource() == saveButton) {
             saveNicheGlossary();
+            updateCount();
         }
     }
 
@@ -333,6 +492,7 @@ public class NicheCalendarGUI {
         if (e.getSource() == loadButton) {
             loadNicheGlossary();
             isThatDayNiche(nicheDate.getNicheDay());
+            updateCount();
         }
     }
 
@@ -379,6 +539,7 @@ public class NicheCalendarGUI {
             nicheName.setText(null);
             nicheDescription.setText(null);
             isThatDayNiche(nicheDate.getNicheDay());
+            updateCount();
         }
     }
 

@@ -1,7 +1,7 @@
 package persistence;
 
 
-import ui.NicheGlossary;
+import model.NicheGlossary;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class JsonReaderTest {
         JsonReader reader = new JsonReader("./data/testReaderEmptyWorkRoom.json");
         try {
             NicheGlossary nr = reader.read();
-            assertEquals(0, nr.getHolidays().length);
+            assertEquals(0, nr.getHolidays().size());
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
@@ -39,7 +39,7 @@ public class JsonReaderTest {
         JsonReader reader = new JsonReader("./data/testReaderGeneralWorkRoom.json");
         try {
             NicheGlossary nr = reader.read();
-            assertEquals(44, nr.getHolidays().length);
+            assertEquals(44, nr.getHolidays().size());
 
 
         } catch (IOException e) {

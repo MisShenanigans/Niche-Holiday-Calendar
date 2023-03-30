@@ -1,12 +1,10 @@
 package persistence;
 
 import model.NicheHoliday;
-import ui.NicheGlossary;
+import model.NicheGlossary;
 
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -37,7 +35,7 @@ class JsonWriterTest {
 
             JsonReader reader = new JsonReader("./data/testWriterEmpty2Workroom.json");
             ng = reader.read();
-            assertEquals(0, ng.getHolidays().length);
+            assertEquals(0, ng.getHolidays().size());
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");
@@ -62,7 +60,7 @@ class JsonWriterTest {
 
             JsonReader reader = new JsonReader("./data/testWriterGeneral2Workroom.json");
             ng = reader.read();
-            assertEquals(3, ng.getHolidays().length);
+            assertEquals(3, ng.getHolidays().size());
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");
