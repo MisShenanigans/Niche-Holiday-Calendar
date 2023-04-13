@@ -27,10 +27,16 @@ public class NicheGlossary implements Writable {
      * EFFECTS: load NICHE_GLOSSARY into holidays;
      */
     public void loadDefaultNicheGlossary() {
+
+        EventLog.getInstance().logEvent(
+                new Event("Loaded the default Glossary"));
+
         for (int i = 0; i < NICHE_GLOSSARY.length; i++) {
             holidays.add(NICHE_GLOSSARY[i]);
         }
+
     }
+
 
     /*
      * REQUIRE: toAdd must be a functioning NicheHoliday
@@ -39,6 +45,13 @@ public class NicheGlossary implements Writable {
      */
     public void addToGlossary(NicheHoliday newHoliday) {
         holidays.add(newHoliday);
+
+        String name = newHoliday.getName();
+        int monthToAdd = newHoliday.getMonth();
+        int dayToAdd = newHoliday.getDay();
+
+        EventLog.getInstance().logEvent(
+                new Event("Added: " + name + " " + monthToAdd + "-" + dayToAdd));
     }
 
     /*
@@ -47,7 +60,18 @@ public class NicheGlossary implements Writable {
      * Effects: remove the inputted NicheHoliday into the NicheGlossary
      */
     public void removeFromGlossary(int monthToRemove, int dayToRemove) {
+        String name = "No Holiday on";
+
+        for (NicheHoliday nh: holidays) {
+            if (nh.isTheGivenDay(monthToRemove, dayToRemove)) {
+                name = nh.getName();
+            }
+        }
+
         holidays.removeIf(nh -> nh.isTheGivenDay(monthToRemove, dayToRemove));
+
+        EventLog.getInstance().logEvent(
+                new Event("Removed: " + name + " " + monthToRemove + "-" + dayToRemove));
     }
 
     /*

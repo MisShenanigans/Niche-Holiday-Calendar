@@ -39,3 +39,27 @@ Used JSON libraries from: https://github.com/stleary/JSON-java
 
 Persistence package and its corresponding tests are largely taken from https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 due to similarities in data types. 
+
+
+## Phase 4: Task 2
+Here is an instance of P2T2 opening the program(with pre-loaded glossary loading),
+adding and removing the 3-14 Pie Day:
+
+"
+Wed Apr 12 18:36:44 PDT 2023
+Loaded the default Glossary
+
+Wed Apr 12 18:37:28 PDT 2023
+Added: PIE Day 3-14
+
+Wed Apr 12 18:37:37 PDT 2023
+Removed: PIE Day 3-14
+"
+
+
+
+
+
+
+
+

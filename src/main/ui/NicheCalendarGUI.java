@@ -1,5 +1,7 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
 import model.NicheDate;
 import model.NicheGlossary;
 import model.NicheHoliday;
@@ -7,8 +9,12 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,14 +22,12 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.border.Border;
-
 
 /**
  Primary graphic user interface that handles graphic based command.
  */
 public class NicheCalendarGUI {
-    private static final String JSON_STORE = "./data/SavedNicheGlossary3.json";
+    private static final String JSON_STORE = "./data/SavedNicheGlossary4.json";
 
     private Scanner input;
     private NicheGlossary loadedGlossary;
@@ -33,10 +37,10 @@ public class NicheCalendarGUI {
     private String logDisplay;
     private int count;
 
-
     private JFrame mainFrame = new JFrame();
 
     //Calendar view set up
+    private String calendarViewContent = "";
     private JLabel monthYear = new JLabel();
     private String monthYearInfo = new String();
     private JLabel dayOfWeekView = new JLabel();
@@ -51,6 +55,8 @@ public class NicheCalendarGUI {
     private JLabel lineFour = new JLabel();
     private String line5 = new String();
     private JLabel lineFive = new JLabel();
+    private String line6 = new String();
+    private JLabel lineSix = new JLabel();
 
 
     private final JLabel calendarView = new JLabel();
@@ -88,13 +94,14 @@ public class NicheCalendarGUI {
     private final JTextArea nicheDescription = new JTextArea();
 
 
-
     private final ImageIcon calendarIcon = new ImageIcon("Icon.jpg");
-    private final ImageIcon calendarViewExample  = new ImageIcon("CalendarView Example.jpg");
+    private final ImageIcon starfield  = new ImageIcon("starfield_.jpg");
+
 
     /*
      *EFFECTS: Set up frame and panels, also initialization
      */
+    @SuppressWarnings("methodlength")
     public NicheCalendarGUI() {
         this.loadedGlossary = new NicheGlossary();
         loadedGlossary.loadDefaultNicheGlossary();
@@ -107,11 +114,19 @@ public class NicheCalendarGUI {
 
         mainFrame.setTitle("Niche Calendar"); //rename it
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(1000, 620);
+        mainFrame.setSize(1000, 650);
         mainFrame.setResizable(false);
         mainFrame.setLayout(null);
         mainFrame.setIconImage(calendarIcon.getImage());
         mainFrame.getContentPane().setBackground(new Color(170, 51, 106));
+        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                printLog(EventLog.getInstance());
+            }
+        });
+
+
 
         calendarViewSetUp();
         goToDayPanelSetUp();
@@ -120,25 +135,107 @@ public class NicheCalendarGUI {
         topInfBarSetUp();
         removeHolderSetUp();
         holidayLogSetUp();
+        imageHolderSetUp();
+
 
         //mainFrame.pack();
 
         mainFrame.setVisible(true);
-        printCalendar(nicheDate.getNicheDay());
-
+        calenderViewValue();
     }
 
+
+    /*
+     *EFFECTS: Print out the event log the system saved
+     */
+    public void printLog(EventLog el) {
+        for (Event next : el) {
+            System.out.print(next.toString() + "\n\n");
+        }
+    }
+
+
+
+
+    /*
+     *EFFECTS: Add a random image
+     */
+    public void imageHolderSetUp() {
+        JLabel randomImage = new JLabel();
+        randomImage.setBounds(770,200,180,390);
+        randomImage.setPreferredSize(new Dimension(180,390));
+        randomImage.setHorizontalTextPosition(JLabel.CENTER);
+        randomImage.setVerticalTextPosition(JLabel.CENTER);
+        randomImage.setIcon(starfield);
+
+
+        mainFrame.add(randomImage);
+    }
+
+
+
+    /*
+     *EFFECTS: Set up the panel for Remove Holiday related functionalities
+     */
+    @SuppressWarnings("methodlength")
+    public void removeHolderSetUp() {
+
+        // set up panel
+        removeHolder.setBackground(Color.LIGHT_GRAY);
+        removeHolder.setBounds(360, 200, 140, 250);
+        removeHolder.setLayout(null);
+
+
+        // set up removeThis button
+        removeThis.setBounds(20, 10, 100, 40);
+        removeThis.setText("Remove This");
+        removeThis.setFont(new Font(" ", Font.BOLD, 10));
+        removeThis.setFocusable(false);
+        removeThis.addActionListener(this::removeThisOne);
+
+
+        // set up text box and instructions
+        JLabel monthInstruction = new JLabel("Enter Month Number");
+        monthInstruction.setBounds(10, 55, 120, 25);
+        removedMonth.setBounds(10, 80, 120, 35);
+
+        JLabel dayInstruction = new JLabel("Enter Day Number");
+        dayInstruction.setBounds(10, 120, 120, 25);
+        removedDay.setBounds(10, 145, 120, 35);
+
+        // set up removeThat button
+        removeThat.setBounds(20, 195, 100, 40);
+        removeThat.setText("Remove that");
+        removeThat.setFont(new Font(" ", Font.BOLD, 10));
+        removeThat.setFocusable(false);
+        removeThat.addActionListener(this::removeThatOne);
+
+
+        removeHolder.add(removeThat);
+        removeHolder.add(removedDay);
+        removeHolder.add(removedMonth);
+        removeHolder.add(dayInstruction);
+        removeHolder.add(monthInstruction);
+        removeHolder.add(removeThis);
+        mainFrame.add(removeHolder);
+    }
+
+
+
+    /*
+     *EFFECTS: Set up holidayLogSetUp panel
+     */
     @SuppressWarnings("methodlength")
     public void holidayLogSetUp() {
         // set up panel
         holidayLog.setBackground(Color.LIGHT_GRAY);
-        holidayLog.setBounds(520, 200, 130, 350);
+        holidayLog.setBounds(190, 460, 140, 95);
 
         JLabel name = new JLabel();
         name.setBounds(0, 0, 130, 50);
         name.setVerticalAlignment(JLabel.CENTER);
         name.setHorizontalAlignment(JLabel.CENTER);
-        name.setText("Holiday Log");
+        name.setText("Holiday Stats");
         name.setFont(new Font(" ", Font.BOLD, 20));
 
 
@@ -146,13 +243,14 @@ public class NicheCalendarGUI {
         holidayCount.setVerticalAlignment(JLabel.CENTER);
         holidayCount.setHorizontalAlignment(JLabel.CENTER);
         updateCount();
-        //assignLog();
+        // assignLog();
 
 
         holidayLog.add(name);
         holidayLog.add(holidayCount);
         mainFrame.add(holidayLog);
     }
+
 
 
     /*
@@ -163,31 +261,6 @@ public class NicheCalendarGUI {
         logDisplay = "<html>Current Holiday <br> Number: " + count + "</html>";
         holidayCount.setText(logDisplay);
     }
-
-    /*
-     *EFFECTS: Assign Holidays names to JLabels and put them onto the JPanel
-     * Not finished!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
-    public void assignLog() {
-        holidayLogList = new ArrayList<JLabel>();
-        for (int i = loadedGlossary.getHolidays().size(); i > 1; i--) {
-            JLabel toAdd = new JLabel();
-            toAdd.setBounds(0, 50 + (i * 30), 130, 30);
-            toAdd.setVerticalAlignment(JLabel.CENTER);
-            toAdd.setHorizontalAlignment(JLabel.CENTER);
-            toAdd.setFont(new Font(" ", Font.BOLD, 15));
-            String content = loadedGlossary.getHolidays().get(i).getName();
-            toAdd.setText(content);
-            holidayLogList.add(toAdd);
-        }
-
-        for (JLabel toPut : holidayLogList) {
-            holidayLog.add(toPut);
-        }
-
-    }
-
-
 
 
 
@@ -235,51 +308,6 @@ public class NicheCalendarGUI {
 
     }
 
-    /*
-     *EFFECTS: Set up the panel for Remove Holiday related functionalities
-     */
-    @SuppressWarnings("methodlength")
-    public void removeHolderSetUp() {
-
-        // set up panel
-        removeHolder.setBackground(Color.LIGHT_GRAY);
-        removeHolder.setBounds(360, 200, 140, 250);
-        removeHolder.setLayout(null);
-
-
-        // set up removeThis button
-        removeThis.setBounds(20, 10, 100, 40);
-        removeThis.setText("Remove This");
-        removeThis.setFont(new Font(" ", Font.BOLD, 10));
-        removeThis.setFocusable(false);
-        removeThis.addActionListener(this::removeThisOne);
-
-
-        // set up text box and instructions
-        JLabel monthInstruction = new JLabel("Enter Month Number");
-        monthInstruction.setBounds(10, 55, 120, 25);
-        removedMonth.setBounds(10, 80, 120, 35);
-
-        JLabel dayInstruction = new JLabel("Enter Day Number");
-        dayInstruction.setBounds(10, 120, 120, 25);
-        removedDay.setBounds(10, 145, 120, 35);
-
-        // set up removeThat button
-        removeThat.setBounds(20, 195, 100, 40);
-        removeThat.setText("Remove that");
-        removeThat.setFont(new Font(" ", Font.BOLD, 10));
-        removeThat.setFocusable(false);
-        removeThat.addActionListener(this::removeThatOne);
-
-
-        removeHolder.add(removeThat);
-        removeHolder.add(removedDay);
-        removeHolder.add(removedMonth);
-        removeHolder.add(dayInstruction);
-        removeHolder.add(monthInstruction);
-        removeHolder.add(removeThis);
-        mainFrame.add(removeHolder);
-    }
 
 
     /*
@@ -396,31 +424,7 @@ public class NicheCalendarGUI {
         isThatDayNiche(nicheDate.getNicheDay());
     }
 
-    /*
-     *EFFECTS: Set up the calendar view (not finished) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
-    public void calendarViewSetUp() {
 
-        //String calendarContent = printCalendar(date);
-        calendarView.setText("Reserved for Calendar View");
-        calendarView.setIcon(calendarViewExample);
-        calendarView.setHorizontalTextPosition(JLabel.CENTER);
-        calendarView.setVerticalTextPosition(JLabel.TOP);
-        calendarView.setForeground(Color.white);
-        calendarView.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        calendarView.setIconTextGap(-2);
-        calendarView.setBackground(Color.black);
-        calendarView.setOpaque(true);
-        Border usedBorder = BorderFactory.createLineBorder(Color.green);
-        calendarView.setBorder(usedBorder);
-        calendarView.setVerticalAlignment(JLabel.CENTER);
-        calendarView.setHorizontalAlignment(JLabel.CENTER);
-        calendarView.setBounds(670,300,300,250);
-
-
-        mainFrame.add(calendarView);
-
-    }
 
 
     /*
@@ -504,7 +508,7 @@ public class NicheCalendarGUI {
             nicheDate.modifyNicheDay("yest");
             isThatDayNiche(nicheDate.getNicheDay());
             System.out.println("You reached Yesterday~");
-            printCalendar(nicheDate.getNicheDay());
+            calenderViewValue();
         }
     }
 
@@ -516,7 +520,7 @@ public class NicheCalendarGUI {
             nicheDate.modifyNicheDay("tom");
             isThatDayNiche(nicheDate.getNicheDay());
             System.out.println("You arrived Tomorrow~");
-            printCalendar(nicheDate.getNicheDay());
+            calenderViewValue();
         }
     }
 
@@ -540,6 +544,7 @@ public class NicheCalendarGUI {
             nicheDescription.setText(null);
             isThatDayNiche(nicheDate.getNicheDay());
             updateCount();
+            //assignLog();
         }
     }
 
@@ -553,7 +558,7 @@ public class NicheCalendarGUI {
             System.out.println("You are back");
             isTodayNiche();
             nicheDate.modifyNicheDay("today");
-            printCalendar(nicheDate.getNicheDay());
+            calenderViewValue();
         }
 
     }
@@ -568,7 +573,7 @@ public class NicheCalendarGUI {
             String command = desiredDate.getText();
             nicheDate.modifyNicheDay(command);
             isThatDayNiche(nicheDate.getNicheDay());
-            printCalendar(nicheDate.getNicheDay());
+            calenderViewValue();
         }
 
     }
@@ -599,7 +604,6 @@ public class NicheCalendarGUI {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
-
 
 
 
@@ -649,15 +653,18 @@ public class NicheCalendarGUI {
      *REQUIRES: year, month are consistent with the date.
      *EFFECTS: Print a date in their respective month in a calendar view.
      */
-    private static void printCalendar(LocalDate date) {
+    private void printCalendar(LocalDate date) {
         int year = date.getYear();
         int month = date.getMonthValue();
         YearMonth yearMonth = YearMonth.of(year, month);
 
+
         // Print the month and year on the top
+        monthYearInfo = yearMonth.getMonth() + " " + year;
         System.out.println(yearMonth.getMonth() + " " + year);
 
         // Print the first row that represent week
+        dayOfWeekName = " Su Mo Tu We Th Fr Sa";
         System.out.println(" Su Mo Tu We Th Fr Sa");
 
         // Find where to start
@@ -668,11 +675,13 @@ public class NicheCalendarGUI {
 
         // Print the calendar rows
         for (int i = 0; i < startDay; i++) {
+            calendarViewContent = calendarViewContent + "   ";
             System.out.print("   ");
         }
         for (int i = 1; i <= yearMonth.lengthOfMonth(); i++) {
             handleInteger(i, date, startDay);
         }
+        calendarViewContent = calendarViewContent;
         System.out.println("\n");
     }
 
@@ -680,25 +689,144 @@ public class NicheCalendarGUI {
     /*
      *EFFECTS: Additional helper method due to line number restriction
      */
-    private static void handleInteger(int i, LocalDate date, int startDay) {
+    private void handleInteger(int i, LocalDate date, int startDay) {
         if (i == date.getDayOfMonth()) {
+            calendarViewContent = calendarViewContent;
             System.out.print("\u001B[34m");  // Note: change the color here
         }
         if (i < 10) {
+            calendarViewContent = calendarViewContent + "  " + i;
             System.out.print("  " + i);
         } else {
+            calendarViewContent = calendarViewContent + " " + i;
             System.out.print(" " + i);
         }
         if (i > date.getDayOfMonth() - 1) {
+            calendarViewContent = calendarViewContent;
             System.out.print("\u001B[0m");   // return to colorless
         }
         if ((startDay + i - 1) % 7 == 6) {
+            calendarViewContent = calendarViewContent + " ";
             System.out.println();
         }
     }
 
 
+    /*
+     *EFFECTS: Helper method to put values into jLabels
+     */
+    public void calenderViewValue() {
 
+        printCalendar(nicheDate.getNicheDay());
+
+        int totalLength = calendarViewContent.length();
+        line1 = calendarViewContent.substring(0, 21);
+        lineOne.setText(line1);
+        line2 = calendarViewContent.substring(22, 43);
+        lineTwo.setText(line2);
+        line3 = calendarViewContent.substring(44, 65);
+        lineThree.setText(line3);
+        line4 = calendarViewContent.substring(66, 87);
+        lineFour.setText(line4);
+        line5 = calendarViewContent.substring(88, 109);
+        lineFive.setText(line5);
+        line6 = calendarViewContent.substring(110, totalLength);
+        lineSix.setText(line6);
+    }
+
+    /*
+     *EFFECTS: Set up the calendar view (not finished)
+     */
+    @SuppressWarnings("methodlength")
+    public void calendarViewSetUp() {
+
+        calenderViewHolder.setBounds(520,200,240,250);
+        Border usedBorder = BorderFactory.createLineBorder(Color.green);
+        calenderViewHolder.setBorder(usedBorder);
+        calenderViewHolder.setOpaque(true);
+        calenderViewHolder.setLayout(new GridLayout(8, 23));
+        calenderViewHolder.setBackground(new Color(212, 227, 211));
+        int year = nicheDate.getNicheDay().getYear();
+        int month = nicheDate.getNicheDay().getMonthValue();
+        YearMonth yearMonth = YearMonth.of(year, month);
+
+
+        calendarView.setVerticalAlignment(JLabel.CENTER);
+        calendarView.setHorizontalAlignment(JLabel.CENTER);
+        calendarView.setBounds(670,300,300,250);
+
+
+        monthYearInfo = " " + yearMonth.getMonth() + " " + year;
+        monthYear.setText(monthYearInfo);
+        monthYear.setBounds(30,0, 230, 20);
+        monthYear.setBackground(Color.WHITE);
+        monthYear.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 17));
+
+
+
+
+        dayOfWeekName = " Su Mo Tu We Th Fr Sa";
+        dayOfWeekView.setText(dayOfWeekName);
+        dayOfWeekView.setBounds(30, 30, 260, 20);
+        dayOfWeekView.setBackground(Color.WHITE);
+        dayOfWeekView.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        dayOfWeekView.setPreferredSize(new Dimension(200, 20));
+
+
+        calenderViewValue();
+
+
+        lineOne.setBounds(30, 50, 260, 20);
+        lineOne.setBackground(Color.WHITE);
+        lineOne.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        lineOne.setPreferredSize(new Dimension(200, 20));
+
+
+
+        lineTwo.setBounds(30, 70, 260, 20);
+        lineTwo.setBackground(Color.WHITE);
+        lineTwo.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        lineTwo.setPreferredSize(new Dimension(200, 20));
+
+
+
+        lineThree.setBounds(30, 90, 260, 20);
+        lineThree.setBackground(Color.WHITE);
+        lineThree.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        lineThree.setPreferredSize(new Dimension(200, 20));
+
+
+        lineFour.setBounds(30, 110, 260, 20);
+        lineFour.setBackground(Color.WHITE);
+        lineFour.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        lineFour.setPreferredSize(new Dimension(200, 20));
+
+
+
+        lineFive.setBounds(30, 130, 260, 20);
+        lineFive.setBackground(Color.WHITE);
+        lineFive.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        lineFive.setPreferredSize(new Dimension(200, 20));
+
+
+
+        lineSix.setBounds(30, 150, 260, 20);
+        lineSix.setBackground(Color.WHITE);
+        lineSix.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        lineSix.setPreferredSize(new Dimension(200, 20));
+
+
+        calenderViewHolder.add(monthYear);
+        calenderViewHolder.add(dayOfWeekView);
+        calenderViewHolder.add(lineOne);
+        calenderViewHolder.add(lineTwo);
+        calenderViewHolder.add(lineThree);
+        calenderViewHolder.add(lineFour);
+        calenderViewHolder.add(lineFive);
+        calenderViewHolder.add(lineSix);
+        mainFrame.add(calenderViewHolder);
+
+    }
 
 
 }
