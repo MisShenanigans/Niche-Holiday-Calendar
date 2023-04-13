@@ -102,7 +102,7 @@ public class NicheCalendarGUI {
     @SuppressWarnings("methodlength")
     public NicheCalendarGUI() {
         this.loadedGlossary = new NicheGlossary();
-        //loadedGlossary.loadDefaultNicheGlossary();
+        loadedGlossary.loadDefaultNicheGlossary();
         this.nicheDate = new NicheDate();
         this.input = new Scanner(System.in);
         LocalDate date = nicheDate.getNicheDay();
@@ -436,7 +436,7 @@ public class NicheCalendarGUI {
 
         isTodayNiche();
         // set up first line of words
-        whatDatItIs.setBounds(100,10, 740, 60);
+        whatDatItIs.setBounds(100,0, 740, 50);
         whatDatItIs.setHorizontalTextPosition(JLabel.CENTER);
         whatDatItIs.setVerticalTextPosition(JLabel.CENTER);
         whatDatItIs.setHorizontalAlignment(JLabel.CENTER);
@@ -444,7 +444,7 @@ public class NicheCalendarGUI {
         whatDatItIs.setFont(new Font("Verdana", Font.PLAIN, 20));
 
         // set up second line of words
-        additionalInfo.setBounds(100, 80, 740, 70);
+        additionalInfo.setBounds(100, 50, 740, 90);
         additionalInfo.setHorizontalTextPosition(JLabel.CENTER);
         additionalInfo.setVerticalTextPosition(JLabel.CENTER);
         additionalInfo.setHorizontalAlignment(JLabel.CENTER);
