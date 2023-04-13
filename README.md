@@ -56,6 +56,16 @@ Wed Apr 12 18:37:37 PDT 2023
 Removed: PIE Day 3-14
 "
 
+## Phase 4: Task 3
+Given more time, I will refactor the method printCalendar() in class NicheCalendarGUI into
+the class NicheDate because in GUI all it does is to produce a string and that should be 
+a task for model instead of UI. I will likely also make a few more exceptions regarding to
+repeated attempts of adding NicheHoliday onto the same day in a year.
+
+Also I will likely create a selection box in UI so the user will be able to pick the save file
+they want to load and save their holiday glossary and I can rewrite the default glossary as
+a json file instead of a NicheHoliday array that looks weird.
+
 
 
 

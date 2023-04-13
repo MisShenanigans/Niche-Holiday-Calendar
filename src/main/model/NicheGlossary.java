@@ -1,18 +1,17 @@
 package model;
 
-import model.NicheHoliday;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
-
-import java.time.LocalDate;
-import java.time.MonthDay;
 import java.util.ArrayList;
+
 
 /**
  The glossary for all Niche holidays recorded in this program
  */
 public class NicheGlossary implements Writable {
+
     private ArrayList<NicheHoliday> holidays;
 
     /*

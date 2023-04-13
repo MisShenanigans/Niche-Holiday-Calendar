@@ -102,7 +102,7 @@ public class NicheCalendarGUI {
     @SuppressWarnings("methodlength")
     public NicheCalendarGUI() {
         this.loadedGlossary = new NicheGlossary();
-        loadedGlossary.loadDefaultNicheGlossary();
+        //loadedGlossary.loadDefaultNicheGlossary();
         this.nicheDate = new NicheDate();
         this.input = new Scanner(System.in);
         LocalDate date = nicheDate.getNicheDay();

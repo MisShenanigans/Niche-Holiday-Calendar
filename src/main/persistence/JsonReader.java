@@ -12,6 +12,7 @@ import model.NicheGlossary;
 
 // Represents a reader that reads NicheGlossary from JSON data stored in file
 public class JsonReader {
+
     private String source;
 
     // EFFECTS: constructs reader to read from source file
