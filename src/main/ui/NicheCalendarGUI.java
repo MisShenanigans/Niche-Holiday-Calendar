@@ -12,9 +12,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -657,15 +655,13 @@ public class NicheCalendarGUI {
         int year = date.getYear();
         int month = date.getMonthValue();
         YearMonth yearMonth = YearMonth.of(year, month);
-
+        calendarViewContent = "";
 
         // Print the month and year on the top
         monthYearInfo = yearMonth.getMonth() + " " + year;
-        System.out.println(yearMonth.getMonth() + " " + year);
 
         // Print the first row that represent week
         dayOfWeekName = " Su Mo Tu We Th Fr Sa";
-        System.out.println(" Su Mo Tu We Th Fr Sa");
 
         // Find where to start
         int startDay = yearMonth.atDay(1).getDayOfWeek().getValue();
@@ -676,38 +672,45 @@ public class NicheCalendarGUI {
         // Print the calendar rows
         for (int i = 0; i < startDay; i++) {
             calendarViewContent = calendarViewContent + "   ";
-            System.out.print("   ");
         }
         for (int i = 1; i <= yearMonth.lengthOfMonth(); i++) {
-            handleInteger(i, date, startDay);
+            handleInteger(i, startDay);
         }
         calendarViewContent = calendarViewContent;
-        System.out.println("\n");
+
     }
+
+    /*
+     *EFFECTS: Make sure calendarViewContent has enough string length to be used.
+     */
+    private String modifyLength(String toModify) {
+        int length = toModify.length();
+        if (length >= 136) {
+            return toModify;
+        } else {
+            StringBuilder sb = new StringBuilder(toModify);
+            for (int i = length; i < 136; i++) {
+                sb.append(" ");
+            }
+            return sb.toString();
+        }
+    }
+
 
 
     /*
      *EFFECTS: Additional helper method due to line number restriction
      */
-    private void handleInteger(int i, LocalDate date, int startDay) {
-        if (i == date.getDayOfMonth()) {
-            calendarViewContent = calendarViewContent;
-            System.out.print("\u001B[34m");  // Note: change the color here
-        }
+    private void handleInteger(int i, int startDay) {
         if (i < 10) {
             calendarViewContent = calendarViewContent + "  " + i;
-            System.out.print("  " + i);
+
         } else {
             calendarViewContent = calendarViewContent + " " + i;
-            System.out.print(" " + i);
         }
-        if (i > date.getDayOfMonth() - 1) {
-            calendarViewContent = calendarViewContent;
-            System.out.print("\u001B[0m");   // return to colorless
-        }
+
         if ((startDay + i - 1) % 7 == 6) {
             calendarViewContent = calendarViewContent + " ";
-            System.out.println();
         }
     }
 
@@ -717,9 +720,16 @@ public class NicheCalendarGUI {
      */
     public void calenderViewValue() {
 
-        printCalendar(nicheDate.getNicheDay());
-
+        LocalDate toGo = nicheDate.getNicheDay();
+        printCalendar(toGo);
+        calendarViewContent = modifyLength(calendarViewContent);
+        int year = nicheDate.getNicheDay().getYear();
+        int month = nicheDate.getNicheDay().getMonthValue();
+        YearMonth yearMonth = YearMonth.of(year, month);
         int totalLength = calendarViewContent.length();
+
+        monthYearInfo = " " + yearMonth.getMonth() + " " + year;
+        monthYear.setText(monthYearInfo);
         line1 = calendarViewContent.substring(0, 21);
         lineOne.setText(line1);
         line2 = calendarViewContent.substring(22, 43);
@@ -746,9 +756,7 @@ public class NicheCalendarGUI {
         calenderViewHolder.setOpaque(true);
         calenderViewHolder.setLayout(new GridLayout(8, 23));
         calenderViewHolder.setBackground(new Color(212, 227, 211));
-        int year = nicheDate.getNicheDay().getYear();
-        int month = nicheDate.getNicheDay().getMonthValue();
-        YearMonth yearMonth = YearMonth.of(year, month);
+
 
 
         calendarView.setVerticalAlignment(JLabel.CENTER);
@@ -756,8 +764,7 @@ public class NicheCalendarGUI {
         calendarView.setBounds(670,300,300,250);
 
 
-        monthYearInfo = " " + yearMonth.getMonth() + " " + year;
-        monthYear.setText(monthYearInfo);
+
         monthYear.setBounds(30,0, 230, 20);
         monthYear.setBackground(Color.WHITE);
         monthYear.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 17));

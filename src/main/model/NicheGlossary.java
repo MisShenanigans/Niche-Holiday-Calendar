@@ -83,7 +83,6 @@ public class NicheGlossary implements Writable {
 
 
 
-
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
