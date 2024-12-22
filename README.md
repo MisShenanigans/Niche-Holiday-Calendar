@@ -1,6 +1,6 @@
 # Niche Holiday Calender
 
-## Don't Panic and Grab Your Towel, or Honey Can, or Whatever.
+## This is a student project for a undergraduate programming class
 
 This is a student project for course CPSC210. It primarily 
 does three things.
